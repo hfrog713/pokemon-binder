@@ -73,11 +73,11 @@ function loadTab(which,range){return new Promise((resolve,reject)=>{let cb="poke
 async function refresh(){try{const rs=await Promise.all([loadTab("Species Owned","A1:H350"),loadTab("Visible Cards","A1:M500"),loadTab("Page Guide","A1:H70")]);const o=rs[0].filter(r=>Number(r[0])>0).map(r=>({dex:Number(r[0]),name:String(r[1]||""),count:Number(r[2])||1,page:Number(r[4])||0,pocket:String(r[5]||"")}));const cs=rs[1].filter(r=>/^P-/.test(String(r[0]||""))).map(r=>({id:r[0],dex:Number(r[1]),name:String(r[2]),printed:String(r[3]),page:Number(r[5]),row:Number(r[6]),col:Number(r[7]),expansion:String(r[10]||"Unidentified"),cardNo:String(r[11]||""),variant:String(r[12]||"Unverified")}));const ps=rs[2].filter(r=>Number(r[0])>0).map(r=>({page:Number(r[0]),range:String(r[1]),first:Number(r[2]),last:Number(r[3]),slots:Number(r[5])||36}));if(o.length<1||ps.length<1)throw Error("Empty data");store={owned:o,cards:cs,pages:ps};$("sync").textContent="● Live · Google Sheets";$("sync").style.color="#8bffd0";$("sourceText").textContent="Connected to the live Google Sheet. Changes appear when you reload this page.";init();updateStats();if($("search").value)doSearch();refreshValuations();}catch(e){$("sync").textContent="● Snapshot · Nov 6, 2026";$("sourceText").textContent="Showing the saved photo-baseline snapshot. Live updates are pending the public feed sharing permission and the IMPORTRANGE access approvals. Your private master remains private.";}}
 async function refreshValuations(){
  try{
-  const rows=await loadTab("Card Values","A1:D500");
+  const rows=await loadTab("Card Values","A1:E500");
   const values=new Map(rows.filter(r=>/^P-/.test(String(r[0]||""))).map(r=>[String(r[0]),r]));
   store.cards=store.cards.map(c=>{
    const v=values.get(String(c.id));if(!v)return c;
-   return {...c,market:v[1]??"",priceDate:v[2]??"",imageUrl:v[3]??""};
+   return {...c,market:v[1]??"",priceDate:v[2]??"",imageUrl:v[3]??"",priceSource:v[4]??""};
   });updateStats();render();
  }catch(e){/* Card values are optional. Preserve currently verified baseline and avoid inventing numbers. */}
 }
