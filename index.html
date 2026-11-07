@@ -45,7 +45,7 @@ function selectPocket(cards,r,c){
  $("slotDetail").innerHTML=cards.map(k=>{
   let actual=Number(k.dex), mismatch=target&&actual!==Number(target.species);
   let pic=typeof k.imageUrl==="string"&&/^https:\/\/[^\s"<>]+$/i.test(k.imageUrl)?'<img class="cardPhoto" loading="lazy" referrerpolicy="no-referrer" alt="'+escape(k.name)+" card image"+'" src="'+escape(k.imageUrl)+'">':"<div class='meta'>Card artwork: exact printing not yet confirmed</div>";
-  let price=(k.market!==""&&k.market!==null&&k.market!==undefined&&Number.isFinite(Number(k.market)))?'<div class="priceHighlight">$'+Number(k.market).toFixed(2)+' <span style="font-size:11px;color:#a8c2c9">(verified price)</span></div><div class="meta">Checked: '+escape(k.priceDate||"Date pending")+'</div>':'<div class="meta">Market value: not verified</div>';
+  let price=(k.market!==""&&k.market!==null&&k.market!==undefined&&Number.isFinite(Number(k.market)))?'<div class="priceHighlight">$'+Number(k.market).toFixed(2)+' <span style="font-size:11px;color:#a8c2c9">(verified price)</span></div><div class="meta">Checked: '+escape(k.priceDate||"Date pending")+'</div>'+((typeof k.priceSource==='string'&&/^https:\/\//i.test(k.priceSource))?'<div class="meta"><a href="'+escape(k.priceSource)+'" rel="noopener noreferrer" target="_blank" style="color:#9bebc5">View price source</a></div>':''):'<div class="meta">Market value: not verified</div>';
   return '<div class="selected">'+escape(k.name)+' <small style="font-size:13px;color:#9bebc5">#'+escape(k.dex)+'</small></div>'+
    '<div class="meta">Binder slot: '+(target?'#'+escape(target.dex)+' '+escape(target.name):'Not mapped')+'</div>'+
    (mismatch?'<div class="meta" style="color:#ffcc91">⚠ Card is in a different species slot — review placement</div>':"")+
