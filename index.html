@@ -76,6 +76,20 @@ let pendingData=PENDING_SNAPSHOT;
 async function refreshPending(){
  try{const rows=await loadTab("Unfiled","A1:L60");const arr=rows.filter(r=>/^U-/.test(String(r[0]||""))).map(r=>Array.from({length:12},(_,i)=>r[i]??""));if(arr.length)pendingData=arr;}catch(e){}
 }
+
+function pendingDetails(x){
+ if(!x)return "";
+ const [id,dex,name,setName,number,finish,pocket,market,checked,source,image]=x;
+ const imageHtml=(typeof image==="string"&&image.startsWith("https://"))?'<img class="cardPhoto" loading="lazy" alt="'+escape(name)+' card reference" src="'+escape(image)+'">':"";
+ const hasPrice=market!==""&&market!=null&&Number.isFinite(Number(market));
+ const value=hasPrice?'<div class="priceHighlight">Market reference: $'+Number(market).toFixed(2)+'</div><div class="meta">Price checked: '+escape(checked||"unknown")+'</div>':'<div class="meta">Market value: not verified</div>';
+ const sourceLink=(typeof source==="string"&&source.startsWith("https://"))?'<div class="meta"><a target="_blank" rel="noopener noreferrer" href="'+escape(source)+'">Price source</a></div>':"";
+ return '<div class="selected">'+escape(name)+' <small style="font-size:13px;color:#9bebc5">#'+escape(dex)+'</small></div>'+imageHtml+
+   '<div class="meta">Expansion: '+escape(setName)+'</div><div class="meta">Collector #: '+escape(number)+'</div>'+
+   '<div class="meta">Finish: '+escape(finish)+'</div><div class="meta">Physical location: awaiting verification</div>'+
+   '<hr style="border:0;border-top:1px solid #3a596a;margin:12px 0">'+
+   '<div class="kicker">Additional card information</div>'+value+sourceLink;
+}
 function pendingPocket(o){return /^Owned/i.test(String(o.status||""))&&!/visible/i.test(String(o.status||""));}
 function init(){const el=$("selectPage");el.innerHTML=store.pages.map(p=>'<option value="'+p.page+'">Page '+p.page+' · '+escape(p.range)+'</option>').join("");render();}
 function render(){let pages=store.pages;let cur=pages.find(p=>p.page===page)||pages[0];if(!cur)return;page=cur.page;
