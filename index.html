@@ -107,7 +107,13 @@ function render(){let pages=store.pages;let cur=pages.find(p=>p.page===page)||pa
 function selectPocket(cards,r,c){
  const target=VERIFIED_POCKETS[page+":"+r+":"+c];
  $("slotTitle").textContent="Page "+page+" · Row "+r+" · Col "+c;
- if(!cards.length){const incoming=store.owned.find(o=>pendingPocket(o)&&Number(o.page)===page&&o.pocket==="R"+r+"C"+c);$("slotDetail").innerHTML="<p>"+(target?"Expected <strong>#"+escape(target.dex)+" "+escape(target.name)+"</strong>.":"No printed placeholder mapped.")+(incoming?" <strong style=\"color:#ffd68a\">Owned and confirmed by you; exact physical pocket is not verified.</strong> Confirm where it is filed before marking its location verified.":" No visible card recorded.")+"</p>";return;}
+ if(!cards.length){
+  const incoming=store.owned.find(o=>pendingPocket(o)&&Number(o.page)===page&&o.pocket==="R"+r+"C"+c);
+  const record=pendingData.find(x=>target&&Number(x[1])===Number(target.species)&&x[6]==="P"+page+" R"+r+"C"+c);
+  $("slotDetail").innerHTML="<p>"+(target?"Expected <strong>#"+escape(target.dex)+" "+escape(target.name)+"</strong>.":"No printed placeholder mapped.")+
+    (incoming?" <strong style=\"color:#ffd68a\">Owner-confirmed card; physical pocket not yet verified.</strong>":" No visible card recorded.")+"</p>"+
+    (incoming?pendingDetails(record):"");
+  return;}
  $("slotDetail").innerHTML=cards.map(k=>{
   let actual=Number(k.dex), mismatch=target&&actual!==Number(target.species);
   let pic=(typeof k.imageUrl==="string"&&/^https:\/\/[^\s"<>]+$/i.test(k.imageUrl))?'<img class="cardPhoto" loading="lazy" referrerpolicy="no-referrer" alt="'+escape(k.name)+' card image" src="'+escape(k.imageUrl)+'">':"<div class='meta'>Exact-printing catalog art not yet available</div>";
