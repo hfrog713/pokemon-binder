@@ -7,11 +7,27 @@
 *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% 0%,#18414e,#0d1b29 55%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
 main{max-width:1110px;margin:auto;padding:26px 19px 55px}nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}.brand{font-size:30px;font-weight:850;letter-spacing:-.04em}.brand em{color:var(--mint);font-style:normal}.eyebrow{color:var(--mint);font-size:11px;text-transform:uppercase;letter-spacing:.18em;font-weight:700}
 a{color:var(--mint)}.navlink{text-decoration:none;border:1px solid #357761;border-radius:11px;padding:10px 14px;font-size:13px;font-weight:700}h1{font-size:clamp(28px,5vw,44px);letter-spacing:-.04em;margin:26px 0 8px}p{color:var(--muted);line-height:1.65;max-width:870px;font-size:14px}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0}.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px}.metric strong{display:block;font-size:clamp(22px,4vw,35px);font-variant-numeric:tabular-nums}.metric span{font-size:12px;color:var(--muted)}.panel{background:#102634;border:1px solid var(--line);border-radius:16px;padding:19px;margin:20px 0}h2{font-size:21px;margin:0 0 13px}.chart{width:100%;overflow:auto}svg{display:block;width:100%;height:auto;min-height:200px;max-height:380px}svg text{font:12px Inter,system-ui,sans-serif;fill:var(--muted)}.tablewrap{max-width:100%;overflow:auto}table{border-collapse:collapse;width:100%;min-width:670px;text-align:left;font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#abc9d0;background:#1b3b48;padding:12px 9px}td{padding:12px 9px;border-top:1px solid #254353;vertical-align:top}td:nth-child(4){font-weight:750;color:#b9f5d5}.foot{font-size:12px;color:var(--muted);line-height:1.6}.status{font-size:12px;color:var(--muted);margin-top:14px}button{padding:9px 13px;background:#1b5140;border:1px solid #388d6c;border-radius:10px;color:#dcffe9;font:inherit;cursor:pointer}button:hover{background:#23634e}@media(max-width:550px){.metric{padding:11px}.summary{gap:6px}.metric strong{font-size:22px}.panel{padding:12px}}
+
+/* Collection leaders */
+.rankIntro{max-width:none;margin:0 0 15px}.rankGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.rankPanel{background:#102330;border:1px solid #2b5360;border-radius:14px;padding:15px;min-width:0}.rankPanel h3{font-size:17px;margin:0 0 4px}.rankPanel .sub{font-size:12px;color:#9cbec6;margin:0 0 12px}.leaders{list-style:none;counter-reset:none;margin:0;padding:0;display:grid;gap:8px}.leaders li{display:grid;grid-template-columns:24px 42px minmax(0,1fr) auto;gap:10px;align-items:center;padding:9px 7px;border:1px solid #254754;border-radius:10px;background:#17313e}.rankNum{font-size:13px;font-weight:800;color:#a5d2c4;text-align:center}.rankArt{width:42px;height:57px;object-fit:contain;border-radius:4px;background:#0a1c26}.rankArt.blank{display:flex;align-items:center;justify-content:center;color:#6e929d;font-size:19px}.rankMeta{min-width:0}.rankMeta strong{font-size:13px;display:block;line-height:1.35;overflow-wrap:anywhere}.rankMeta small{display:block;color:#96b8c2;font-size:11px;line-height:1.35;margin-top:3px}.rankValue{font-size:15px;font-weight:850;color:#b9f5d5;white-space:nowrap}.rankSource{font-size:11px;display:inline-block;margin-top:4px;text-decoration:underline;color:#9adbc8}.rankEmpty{color:#a8c2c9;font-size:13px;padding:17px}.topHeader{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.topStatus{margin:12px 0 0;font-size:12px;color:#9ebfc8}.rankFoot{font-size:12px;color:#9ebfc8;line-height:1.55;margin:14px 0 0;max-width:none}@media(max-width:920px){.rankGrid{grid-template-columns:1fr}}@media(max-width:480px){.rankPanel{padding:10px}.leaders li{grid-template-columns:19px 32px minmax(0,1fr) auto;gap:6px;padding:8px 5px}.rankArt{width:32px;height:44px}.rankValue{font-size:13px}.rankMeta strong{font-size:12px}.rankMeta small{font-size:10px}}
+
 </style></head><body><main>
 <nav><div><div class="eyebrow">National Pokédex / value tracking</div><div class="brand">Pokémon <em>Value History</em></div></div><div style="display:flex;gap:12px;flex-wrap:wrap"><a class="navlink" href="./index.html">Binder</a><a class="navlink" href="./sets.html">Set checklists</a></div></nav>
 <h1>Your collection, over time.</h1>
 <p>Each point is a saved valuation snapshot taken after a pull, a hidden-card reconciliation, a price review or another correction. Historical snapshots are preserved; they do not change when current prices change.</p>
 <div class="summary"><div class="metric"><strong id="total">—</strong><span>Latest recorded ungraded value (USD)</span></div><div class="metric"><strong id="copies">—</strong><span>Priced copies at latest snapshot</span></div><div class="metric"><strong id="asof">—</strong><span>Snapshot date</span></div></div>
+
+<section class="panel" id="top-cards" aria-labelledby="top-title">
+ <div class="topHeader"><h2 id="top-title">Your Top 10 Cards</h2><button type="button" id="topReload">Refresh rankings</button></div>
+ <p class="rankIntro">Two separate leaderboards for cards you actually own, ranked by <strong>individual card value</strong> (not duplicate-adjusted lot totals). Both refresh from your existing public collection feed each time this page loads.</p>
+ <div class="rankGrid">
+  <div class="rankPanel"><h3>Top 10 · Ungraded Mint / Near Mint</h3><p class="sub">Recorded raw unit values · owner-reported Mint, not professionally graded</p><ol id="topRaw" class="leaders"><li class="rankEmpty">Loading raw-value leaders…</li></ol></div>
+  <div class="rankPanel"><h3>Top 10 · Hypothetical PSA 10</h3><p class="sub">Researched estimates <strong>if</strong> the exact printing earns PSA Gem Mint 10</p><ol id="topPSA" class="leaders"><li class="rankEmpty">Loading PSA 10 comparables…</li></ol></div>
+ </div>
+ <div class="topStatus" id="topSync" aria-live="polite">Checking ranked-card feed…</div>
+ <p class="rankFoot">PSA 10 prices are <strong>conditional comparisons, not the actual value of your ungraded cards</strong>. The PSA 10 list ranks researched estimates only; other owned cards may outrank these after further comparable-sale research. Some estimates are based on sparse sales or pricing models. See each card's source. Grading fees, results, sale fees and shipping are excluded. New pulls enter these rankings after their verified holdings and public prices are published during a collection update; there is no continuous market repricing.</p>
+</section>
+
 <section class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2>Collection value trend</h2><button type="button" id="reload">Refresh</button></div><div class="chart" id="chart"><p>Loading recorded snapshots…</p></div><div class="status" id="sync">Connecting to the collection spreadsheet…</div></section>
 <section class="panel"><h2>Saved valuation snapshots</h2><div class="tablewrap"><table><thead><tr><th>Date</th><th>Reason</th><th>Included IDs / copies</th><th>Value</th><th>Coverage</th></tr></thead><tbody id="rows"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
 <p class="foot">Values are estimates for ungraded cards, not guaranteed resale proceeds or certified grades. Condition is owner-reported Mint unless reassessed. Only reconciled holdings are included; cards still behind binder fronts, unverified photo duplicates and unknown-price items may not be included yet. Owner-supplied estimates and assumed $0.01 energies are labeled separately in the master spreadsheet.</p>
@@ -35,6 +51,44 @@ function loadHistory(){
   document.head.appendChild(script);
  })
 }
+
+function loadTopCards(){
+ return new Promise((resolve,reject)=>{
+  const cb="pkTop_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+  const script=document.createElement("script"),timeout=setTimeout(()=>{clean();reject(new Error("Ranking request timed out"))},12000);
+  function clean(){clearTimeout(timeout);try{delete window[cb]}catch(e){}script.remove()}
+  window[cb]=res=>{clean();if(res.status!=="ok"){reject(new Error(res.errors?.[0]?.detailed_message||"Feed unavailable"));return}resolve((res.table?.rows||[]).map(r=>(r.c||[]).map(c=>c?.v??"")))};
+  script.onerror=()=>{clean();reject(new Error("Cannot load ranked-card feed"))};
+  script.src="https://docs.google.com/spreadsheets/d/"+PUBLIC_SHEET+"/gviz/tq?sheet="+encodeURIComponent("Top Card Values")+"&range="+encodeURIComponent("A1:O500")+"&headers=1&tqx="+encodeURIComponent("out:json;responseHandler:"+cb)+"&cache="+Date.now();
+  document.head.appendChild(script);
+ })
+}
+function safeUrl(x){try{const u=new URL(String(x));return u.protocol==="https:"?u.href:""}catch(e){return ""}}
+function drawLeaders(id,cards,kind){
+ const target=$(id);
+ if(!cards.length){target.innerHTML='<li class="rankEmpty">No priced '+(kind==="psa"?"PSA 10 comparable records":"raw cards")+' available yet.</li>';return}
+ target.innerHTML=cards.map((r,i)=>{
+  const [cardId,name,set,collector,finish,qty,raw,rawDate,psa,psaDate,source,notes,img,location,rawBasis]=r;
+  const photo=safeUrl(img);
+  const art=photo?'<img class="rankArt" src="'+esc(photo)+'" alt="'+esc(name)+' card art" loading="lazy" referrerpolicy="no-referrer">':'<span class="rankArt blank" aria-hidden="true">★</span>';
+  const context=[set,collector,finish].filter(Boolean).join(" · ");
+  const price=kind==="psa"?money(psa):money(raw);
+  const basis=kind==="psa"?(safeUrl(source)?'<a class="rankSource" href="'+esc(safeUrl(source))+'" target="_blank" rel="noopener noreferrer" title="'+esc(notes||"PSA 10 source")+'">PSA 10 evidence</a>':'<small>Source not yet linked</small>'):(/owner.provided/i.test(String(rawBasis))?'<small>Owner-provided raw price</small>':'');
+  return '<li><span class="rankNum">'+(i+1)+'</span>'+art+'<div class="rankMeta"><strong>'+esc(name)+'</strong><small>'+esc(context)+'</small><small>'+esc(cardId)+(Number(qty)>1?' · '+esc(qty)+' copies':'')+' · checked '+esc(kind==="psa"?(psaDate||"—"):(rawDate||"—"))+'</small>'+basis+'</div><span class="rankValue">'+esc(fmt(price))+'</span></li>'
+ }).join("");
+}
+async function refreshTopCards(){
+ $("topSync").textContent="Loading current rankings…";
+ try{
+  const rawRows=await loadTopCards(), seen=new Set();
+  const entries=rawRows.filter(r=>r[0]&&r[0]!=="Inventory ID"&&Number(r[5])>0).filter(r=>{if(seen.has(r[0]))return false;seen.add(r[0]);return true});
+  const raw=entries.filter(r=>Number.isFinite(money(r[6]))&&money(r[6])>0).sort((a,b)=>money(b[6])-money(a[6])||String(a[0]).localeCompare(String(b[0]))).slice(0,10);
+  const psa=entries.filter(r=>Number.isFinite(money(r[8]))&&money(r[8])>0).sort((a,b)=>money(b[8])-money(a[8])||String(a[0]).localeCompare(String(b[0]))).slice(0,10);
+  drawLeaders("topRaw",raw,"raw");drawLeaders("topPSA",psa,"psa");
+  $("topSync").textContent=entries.length+" individually tracked holdings · "+entries.filter(r=>money(r[8])>0).length+" PSA 10 printings researched · updated from public sheet";
+ }catch(e){$("topSync").textContent="Rankings unavailable: "+e.message;drawLeaders("topRaw",[],"raw");drawLeaders("topPSA",[],"psa")}
+}
+
 function renderGraph(data){
  const w=940,h=280,padL=80,padR=32,padT=18,padB=47,fw=w-padL-padR,fh=h-padT-padB;
  const nums=data.map(x=>x.value),max=Math.max(1,...nums)*1.12,lower=0;
@@ -57,5 +111,5 @@ async function refresh(){
   $("sync").textContent=data.length+" saved snapshot"+(data.length===1?"":"s")+" · refreshed from public spreadsheet";
  }catch(e){$("sync").textContent="Could not refresh: "+e.message;$("chart").innerHTML='<p>Valuation history feed unavailable; the master spreadsheet remains the authoritative record.</p>'}
 }
-$("reload").addEventListener("click",refresh);refresh();
+$("reload").addEventListener("click",refresh);$("topReload").addEventListener("click",refreshTopCards);refresh();refreshTopCards();
 </script></body></html>
