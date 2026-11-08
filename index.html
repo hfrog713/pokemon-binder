@@ -121,7 +121,7 @@ function selectPocket(cards,r,c){
   return '<div class="selected">'+escape(k.printed||k.name)+' <small style="font-size:13px;color:#9bebc5">#'+escape(target&&Number(target.species)===Number(k.dex)?target.dex:k.dex)+'</small></div>'+
    '<div class="meta">Binder slot: '+(target?'#'+escape(target.dex)+' '+escape(target.name):'Not mapped')+'</div>'+
    (mismatch?'<div class="meta" style="color:#ffcc91">⚠ Card is in a different species slot — review placement</div>':"")+
-   pic+'<div class="meta">Expansion: '+escape(k.expansion)+'</div><div class="meta">Collector #: '+escape(k.cardNo||"Not verified")+'</div><div class="meta">Variant: '+escape(k.variant)+'</div>'+price;
+   pic+'<div class="meta">Expansion: '+escape(k.expansion)+'</div><div class="meta">Collector #: '+escape(k.cardNo||"Not verified")+'</div><div class="meta">Variant: '+escape(k.variant)+'</div>'+'<hr style="border:0;border-top:1px solid #3a596a;margin:12px 0">'+'<div class="kicker">Additional card information</div>'+price;
  }).join("<hr style='border:0;border-top:1px solid #3a596a;margin:12px 0'>");
 }
 function doSearch(){
