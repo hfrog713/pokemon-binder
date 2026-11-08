@@ -71,3 +71,12 @@ Opening snapshot **2026-11-07**: **$132.90** estimated ungraded value across **2
 - [ ] Static collection-value snapshot appended and verified against active holdings.
 - [ ] Website / public mirror verified, and deployment checked if GitHub files changed.
 - [ ] User given a compact batch receipt including changes, value total, known limitations, and unresolved requests.
+
+
+## D. Virtual binder display modes (2026-11-08)
+
+- **Most Valuable (default):** The site reads the public **Display Candidates** feed, which mirrors a formula-derived **Public Display Candidates** tab in the existing master. Only inventory IDs included in **Collection Holdings** qualify, with the recorded ungraded *unit* price. The highest-valued card for each mapped species/form pocket is shown even when physically stored behind another card. Missing prices cannot be asserted as cheaper; ties prefer the existing physical front.
+- **Physical Binder:** Always displays the actual front card recorded in **Visible Cards**; no card is physically moved or replaced by switching the view.
+- **Forms:** A dedicated custom form pocket (e.g., Mega Rayquaza #384.1) stays separate from the base species pocket. A view toggle never counts additional National Dex species or duplicates.
+- **On new pulls or repricing:** Update **All Cards** identity/location and **Collection Holdings** unit price/status as usual. The formula and public mirror refresh candidate values without creating another spreadsheet. Update **Visible Cards** only when the physical front card actually changes.
+- Check the live site mode selector and compare a species with two card prices (Eevee is an example) after changes. If the live price feed is unavailable, do not claim a verified most-valuable ranking; the site falls back to recorded front cards.
