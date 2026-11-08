@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#102433"><meta name="description" content="Saved historical collection values and price tracking for Pokémon Binder">
+<title>Collection Value History | Pokémon Binder</title>
+<style>
+:root{color-scheme:dark;--bg:#0d1b29;--panel:#132b3c;--line:#2c4859;--text:#edf5f5;--muted:#a8c2c9;--mint:#60e6ab}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% 0%,#18414e,#0d1b29 55%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+main{max-width:1110px;margin:auto;padding:26px 19px 55px}nav{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}.brand{font-size:30px;font-weight:850;letter-spacing:-.04em}.brand em{color:var(--mint);font-style:normal}.eyebrow{color:var(--mint);font-size:11px;text-transform:uppercase;letter-spacing:.18em;font-weight:700}
+a{color:var(--mint)}.navlink{text-decoration:none;border:1px solid #357761;border-radius:11px;padding:10px 14px;font-size:13px;font-weight:700}h1{font-size:clamp(28px,5vw,44px);letter-spacing:-.04em;margin:26px 0 8px}p{color:var(--muted);line-height:1.65;max-width:870px;font-size:14px}.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:22px 0}.metric{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:17px}.metric strong{display:block;font-size:clamp(22px,4vw,35px);font-variant-numeric:tabular-nums}.metric span{font-size:12px;color:var(--muted)}.panel{background:#102634;border:1px solid var(--line);border-radius:16px;padding:19px;margin:20px 0}h2{font-size:21px;margin:0 0 13px}.chart{width:100%;overflow:auto}svg{display:block;width:100%;height:auto;min-height:200px;max-height:380px}svg text{font:12px Inter,system-ui,sans-serif;fill:var(--muted)}.tablewrap{max-width:100%;overflow:auto}table{border-collapse:collapse;width:100%;min-width:670px;text-align:left;font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#abc9d0;background:#1b3b48;padding:12px 9px}td{padding:12px 9px;border-top:1px solid #254353;vertical-align:top}td:nth-child(4){font-weight:750;color:#b9f5d5}.foot{font-size:12px;color:var(--muted);line-height:1.6}.status{font-size:12px;color:var(--muted);margin-top:14px}button{padding:9px 13px;background:#1b5140;border:1px solid #388d6c;border-radius:10px;color:#dcffe9;font:inherit;cursor:pointer}button:hover{background:#23634e}@media(max-width:550px){.metric{padding:11px}.summary{gap:6px}.metric strong{font-size:22px}.panel{padding:12px}}
+</style></head><body><main>
+<nav><div><div class="eyebrow">National Pokédex / value tracking</div><div class="brand">Pokémon <em>Value History</em></div></div><div style="display:flex;gap:12px;flex-wrap:wrap"><a class="navlink" href="./index.html">Binder</a><a class="navlink" href="./sets.html">Set checklists</a></div></nav>
+<h1>Your collection, over time.</h1>
+<p>Each point is a saved valuation snapshot taken after a pull, a hidden-card reconciliation, a price review or another correction. Historical snapshots are preserved; they do not change when current prices change.</p>
+<div class="summary"><div class="metric"><strong id="total">—</strong><span>Latest recorded ungraded value (USD)</span></div><div class="metric"><strong id="copies">—</strong><span>Priced copies at latest snapshot</span></div><div class="metric"><strong id="asof">—</strong><span>Snapshot date</span></div></div>
+<section class="panel"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h2>Collection value trend</h2><button type="button" id="reload">Refresh</button></div><div class="chart" id="chart"><p>Loading recorded snapshots…</p></div><div class="status" id="sync">Connecting to the collection spreadsheet…</div></section>
+<section class="panel"><h2>Saved valuation snapshots</h2><div class="tablewrap"><table><thead><tr><th>Date</th><th>Reason</th><th>Included IDs / copies</th><th>Value</th><th>Coverage</th></tr></thead><tbody id="rows"><tr><td colspan="5">Loading…</td></tr></tbody></table></div></section>
+<p class="foot">Values are estimates for ungraded cards, not guaranteed resale proceeds or certified grades. Condition is owner-reported Mint unless reassessed. Only reconciled holdings are included; cards still behind binder fronts, unverified photo duplicates and unknown-price items may not be included yet. Owner-supplied estimates and assumed $0.01 energies are labeled separately in the master spreadsheet.</p>
+<p class="foot">Source: <a href="https://docs.google.com/spreadsheets/d/1yXNt8EkZxKbHeRDEAqz9ze3eezCcZyt3367h2WUmHws/edit">master collection spreadsheet</a> → public read-only value-history feed. No automated market-pricing engine is running; prices are reviewed during collection updates.</p>
+</main><script>
+"use strict";
+const PUBLIC_SHEET="1Jrw80VgoSuXHK0RVL1nvubvQzTWDPGrHR_KkBsdX26o";
+const $=id=>document.getElementById(id);
+const esc=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=x=>Number(String(x??"").replace(/[$, ]/g,""))||0;
+const fmt=x=>new Intl.NumberFormat("en-US",{style:"currency",currency:"USD"}).format(x);
+const integer=x=>new Intl.NumberFormat("en-US").format(Number(x)||0);
+function loadHistory(){
+ return new Promise((resolve,reject)=>{
+  const cb="pkValue_"+Date.now()+"_"+Math.random().toString(36).slice(2);
+  const script=document.createElement("script"),timeout=setTimeout(()=>{clean();reject(new Error("Spreadsheet request timed out"))},11000);
+  function clean(){clearTimeout(timeout);try{delete window[cb]}catch(e){}script.remove()}
+  window[cb]=res=>{clean();if(res.status!=="ok"){reject(new Error(res.errors?.[0]?.detailed_message||"Sheet unavailable"));return}resolve((res.table?.rows||[]).map(r=>(r.c||[]).map(c=>c?.v??"")))};
+  script.onerror=()=>{clean();reject(new Error("Cannot load public spreadsheet feed"))};
+  script.src="https://docs.google.com/spreadsheets/d/"+PUBLIC_SHEET+"/gviz/tq?sheet="+encodeURIComponent("Value History")+"&range="+encodeURIComponent("A1:L500")+"&headers=1&tqx="+encodeURIComponent("out:json;responseHandler:"+cb)+"&cache="+Date.now();
+  document.head.appendChild(script);
+ })
+}
+function renderGraph(data){
+ const w=940,h=280,padL=80,padR=32,padT=18,padB=47,fw=w-padL-padR,fh=h-padT-padB;
+ const nums=data.map(x=>x.value),max=Math.max(1,...nums)*1.12,lower=0;
+ const points=data.map((x,i)=>({x:padL+(data.length===1?fw/2:fw*i/(data.length-1)),y:padT+fh*(1-(x.value-lower)/(max-lower)),...x}));
+ const grid=[0,.25,.5,.75,1].map(n=>{const y=padT+fh*(1-n);return '<line x1="'+padL+'" x2="'+(w-padR)+'" y1="'+y+'" y2="'+y+'" stroke="#294653"/><text x="7" y="'+(y+4)+'">'+esc(fmt(max*n))+'</text>'}).join("");
+ const line=points.map(p=>p.x+","+p.y).join(" ");
+ const dots=points.map(p=>'<circle cx="'+p.x+'" cy="'+p.y+'" r="5" fill="#60e6ab"><title>'+esc(p.date+" "+fmt(p.value))+'</title></circle>').join("");
+ const start=points[0],end=points.at(-1);
+ const labels='<text x="'+start.x+'" y="'+(h-12)+'" text-anchor="middle">'+esc(start.date)+'</text>'+(points.length>1?'<text x="'+end.x+'" y="'+(h-12)+'" text-anchor="end">'+esc(end.date)+'</text>':"");
+ $("chart").innerHTML='<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Collection value history from '+esc(start.date)+' through '+esc(end.date)+'">'+grid+(points.length>1?'<polyline points="'+line+'" fill="none" stroke="#60e6ab" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>':"")+dots+labels+'</svg>';
+}
+async function refresh(){
+ $("sync").textContent="Loading latest recorded snapshots…";
+ try{
+  const raw=await loadHistory();const data=raw.filter(r=>/^\d{4}-\d{2}-\d{2}$/.test(String(r[0]))&&r[7]!==""&&Number.isFinite(money(r[7]))).map(r=>({date:String(r[0]),event:String(r[2]||""),count:Number(r[3])||0,copies:Number(r[4])||0,priced:Number(r[5])||0,unpriced:Number(r[6])||0,value:money(r[7]),notes:String(r[11]||"")})).sort((a,b)=>a.date.localeCompare(b.date));
+  if(!data.length)throw Error("No published snapshots");
+  const latest=data.at(-1);$("total").textContent=fmt(latest.value);$("copies").textContent=integer(latest.priced);$("asof").textContent=latest.date;
+  renderGraph(data);
+  $("rows").innerHTML=[...data].reverse().map(r=>'<tr><td>'+esc(r.date)+'</td><td>'+esc(r.event)+'</td><td>'+esc(integer(r.count)+" IDs / "+integer(r.copies)+" copies")+'</td><td>'+esc(fmt(r.value))+'</td><td>'+esc(integer(r.priced)+" priced; "+integer(r.unpriced)+" unpriced")+'</td></tr>').join("");
+  $("sync").textContent=data.length+" saved snapshot"+(data.length===1?"":"s")+" · refreshed from public spreadsheet";
+ }catch(e){$("sync").textContent="Could not refresh: "+e.message;$("chart").innerHTML='<p>Valuation history feed unavailable; the master spreadsheet remains the authoritative record.</p>'}
+}
+$("reload").addEventListener("click",refresh);refresh();
+</script></body></html>
