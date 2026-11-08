@@ -71,6 +71,11 @@ async function hydrateCatalogImages(currentPage){
 let store=DEFAULT_DATA, page=1, selection=null;
 const $=id=>document.getElementById(id);
 const escape=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const PENDING_SNAPSHOT=[["U-20261107-109","912","Quaxly","Surging Sparks","050/191","Reverse Holo","P31 R5C4","0.29","2026-11-07","https://github.com/novaoc/rarebox-price-history/blob/main/data/pokemon/sv8.json","https://images.pokemontcg.io/sv8/50_hires.png","Owned • owner-confirmed; physical pocket unverified"],["U-20261107-148","659","Bunnelby","Obsidian Flames","175/197","Base","P23 R1C5","0.11","2026-11-01","https://github.com/novaoc/rarebox-price-history/blob/main/data/pokemon/sv3.json","https://images.pokemontcg.io/sv3/175_hires.png","Owned • owner-confirmed; physical pocket unverified"]];
+let pendingData=PENDING_SNAPSHOT;
+async function refreshPending(){
+ try{const rows=await loadTab("Unfiled","A1:L60");const arr=rows.filter(r=>/^U-/.test(String(r[0]||""))).map(r=>Array.from({length:12},(_,i)=>r[i]??""));if(arr.length)pendingData=arr;}catch(e){}
+}
 function pendingPocket(o){return /^Owned/i.test(String(o.status||""))&&!/visible/i.test(String(o.status||""));}
 function init(){const el=$("selectPage");el.innerHTML=store.pages.map(p=>'<option value="'+p.page+'">Page '+p.page+' · '+escape(p.range)+'</option>').join("");render();}
 function render(){let pages=store.pages;let cur=pages.find(p=>p.page===page)||pages[0];if(!cur)return;page=cur.page;
@@ -159,5 +164,6 @@ async function refreshExtras(){
 }
 $("extrasFilter").onchange=renderExtras;
 refreshExtras();
+refreshPending();
 init();updateStats();refresh();
 </script></body></html>
