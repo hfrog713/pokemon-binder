@@ -139,8 +139,7 @@ function renderExtras(){
   const [id,category,name,qty,expansion,collector,finish,rarity,status,market,checked,source,image]=x;
   const safeImg=typeof image==="string"&&/^https:\/\/[^\s"<>]+$/i.test(image);
   const pic=safeImg?'<img class="extraPhoto" loading="lazy" alt="'+escape(name)+' card image" src="'+escape(image)+'">':'<div class="extraPlaceholder">Card artwork pending</div>';
-  const value=(market!==""&&market!=null&&Number.isFinite(Number(market)))?'<div class="extraValue">Market reference: 
-</script></body></html>+Number(market).toFixed(2)+'</div>':'';
+  const value=(market!==""&&market!=null&&Number.isFinite(Number(market)))?'<div class="extraValue">Market reference: '+Number(market).toLocaleString("en-US",{style:"currency",currency:"USD"})+'</div>':'';
   const sourceLink=typeof source==="string"&&/^https:\/\/[^\s"<>]+$/i.test(source)?'<div class="extraInfo"><a target="_blank" rel="noopener noreferrer" href="'+escape(source)+'">Price source</a></div>':'';
   return '<article class="extraCard">'+pic+'<div class="extraName">'+escape(name)+(Number(qty)>1?' ×'+Number(qty):'')+'</div>'+
    '<div class="extraInfo">'+escape(category)+' · '+escape(expansion||"Set pending")+'</div>'+
