@@ -23,34 +23,10 @@ header{display:flex;justify-content:space-between;align-items:center;gap:16px;fl
 .extraValue{color:#bfffe0;font-weight:750;font-size:13px;margin-top:5px}
 @media(max-width:620px){.extrasGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.extraCard{padding:9px}.extraPhoto{height:118px}.extrasHead .control{width:100%;max-width:none}}
 .extraDetails{margin-top:10px;padding-top:9px;border-top:1px solid #385863}.extraDetails summary{font-size:12px;font-weight:650;color:#b9f7de;cursor:pointer}.extraDetails[open] summary{margin-bottom:9px}.extraDetails a{color:#a5f6dc} 
-/* National Pokédex generation completion — fed by the same unique-species rows as the summary. */
-.generationSection{margin:8px 0 24px;padding:21px;border:1px solid var(--line);border-radius:18px;background:#102634}
-.generationHead{display:flex;gap:12px;align-items:baseline;justify-content:space-between;flex-wrap:wrap;margin-bottom:15px}
-.generationHead h2{margin:0;font-size:21px;letter-spacing:-.025em}
-.generationHead p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
-.generationGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
-.generationCard{padding:15px;border:1px solid #365263;border-radius:13px;background:linear-gradient(150deg,#153343,#122b39);min-width:0}
-.generationTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-.generationTitle{font-size:14px;font-weight:800}
-.generationRegion{color:var(--muted);font-size:12px;margin-top:3px}
-.generationPct{color:var(--mint);font-size:19px;font-weight:850;font-variant-numeric:tabular-nums}
-.generationStats{display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap;font-size:12px;margin-top:12px}
-.generationStats strong{font-weight:800}
-.generationMissing{color:var(--muted)}
-.generationBar{height:9px;border-radius:20px;background:#294450;overflow:hidden;margin-top:10px}
-.generationBar>div{height:100%;background:linear-gradient(90deg,#18b579,#7debb4);transition:width .3s}
-.generationRange{font-size:11px;color:#9ab9c3;margin-top:10px}
-@media(max-width:800px){.generationGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:560px){.generationSection{padding:15px}.generationGrid{grid-template-columns:1fr}.generationHead{display:block}.generationHead p{margin-top:6px}}
 </style></head><body><main>
 <header><div><div class="eyebrow">Collection dashboard / National Dex</div><div class="brand">Pokémon <em>Binder</em></div><a href="./sets.html" style="display:inline-block;margin-top:10px;color:#baffd2;background:#183c37;border:1px solid #39765e;padding:11px 14px;border-radius:11px;text-decoration:none;font-size:13px;font-weight:750">Browse Set Checklists ↗</a><a href="./values.html" style="display:inline-block;margin:10px 0 0 8px;color:#baffd2;background:#183c37;border:1px solid #39765e;padding:11px 14px;border-radius:11px;text-decoration:none;font-size:13px;font-weight:750">Collection Value History ↗</a><a href="./values.html#top-cards" style="display:inline-block;margin:10px 0 0 8px;color:#baffd2;background:#183c37;border:1px solid #39765e;padding:11px 14px;border-radius:11px;text-decoration:none;font-size:13px;font-weight:750">🏆 Top 10 Cards ↗</a></div><span id="sync">● Snapshot · Nov 6, 2026</span></header>
 <section class="hero"><p>Your physical 6 × 6 pocket binder, mapped page by page. Most Valuable is the default virtual display, showing the highest-priced verified card in each species or form pocket. Switch to Physical Binder to see the actual front card. All owned cards and duplicates remain independently tracked.</p></section>
 <div class="stats"><div class="stat"><strong id="ownedCount">147</strong><span>Owned species</span></div><div class="stat"><strong id="unfiledCount">0</strong><span>Owned · pocket unverified</span></div><div class="stat"><strong id="cardCount">148</strong><span>Pokémon cards filed</span></div><div class="stat"><strong id="percentage">14.3%</strong><span>National Dex owned</span><div class="progress"><div id="bar" style="width:14.3%"></div></div></div></div>
-<section class="generationSection" id="generation-completion" aria-labelledby="generationHeading">
- <div class="generationHead"><h2 id="generationHeading">Generation Completion</h2><p>Unique National Pokédex species you own · updates with the collection feed</p></div>
- <div class="generationGrid" id="generationGrid" aria-live="polite"></div>
- <p class="smallnote">Each National Pokédex number counts once, regardless of duplicates, regional forms, or Mega Evolutions. “Missing” means not yet recorded as owned, not proof that a binder pocket was checked.</p>
-</section>
 <section class="toolbar"><label class="viewSelector" for="displayMode"><span>Binder view</span><select class="control" id="displayMode" aria-label="Choose binder display mode"><option value="valuable" selected>Most Valuable</option><option value="physical">Physical Binder</option></select></label><input class="control" type="search" id="search" placeholder="Find an owned Pokémon or #..." aria-label="Search Pokémon"><select class="control" id="selectPage" aria-label="Choose binder page"></select><button class="control button" id="clear">Clear search</button></section>
 <div id="searchresults" class="searchresults"></div>
 <div class="frame"><div class="binder"><div class="binderTop"><h2 id="pageHeading">Page 1</h2><small id="pageInfo"></small></div><div class="grid" id="grid"></div><div class="legend"><span><i class="dot"></i> Filed in binder</span><span><i class="dot" style="background:#6f5217;border-color:#b68b3d"></i> Owned, pocket unverified</span><span><i class="dot none"></i> Missing / unverified</span></div><div class="buttons"><button class="control button" id="prev">← Previous</button><button class="control button" id="next">Next →</button></div></div><aside class="side"><section class="panel"><div class="kicker">Selected pocket</div><h3 id="slotTitle">Select a pocket</h3><div id="slotDetail"><p>Tap any green pocket to see the Pokémon and physical location.</p></div></section><section class="panel"><h3>Collection rules</h3><div class="mini">One species counts once for the National Dex. Every visible card is tracked individually. Extra forms can occupy separate physical slots.<p>All 1,231 planned pockets are now named, including the .1/.2 regional and Mega form slots. All six initial placement reviews are now resolved. Tynamo #602 was moved to its correct pocket on November 7, 2026, as confirmed by the owner.</p><p>Exact printings and dated market values are being added as close-ups arrive. Condition and authenticity are still unassessed.</p></div></section><section class="panel"><h3>Card images & values</h3><p>Only verified catalog card artwork is displayed; original collection photos are used for identification only. Unknown printings retain a placeholder. Prices assume raw, near-mint condition and are not sale guarantees.</p><div class="mini"><strong>Dated front-card price subtotal:</strong> <span id="valueSummary">Pending verified valuations</span><br><strong>Price sources:</strong> TCGplayer market / recent sold listings (dated).</div></section><section class="panel"><h3>Data source</h3><p id="sourceText">This page uses the verified photo-baseline snapshot. The website is linked to a public-read feed; activate the source connection and viewing permission to enable updates.</p><p class="mini"><a href="https://docs.google.com/spreadsheets/d/1Jrw80VgoSuXHK0RVL1nvubvQzTWDPGrHR_KkBsdX26o/edit" target="_blank" rel="noopener noreferrer" style="color:#60e6ab">Open public collection feed ↗</a></p></section></aside></div>
@@ -180,33 +156,9 @@ function doSearch(){
 }
 $("displayMode").onchange=e=>{displayMode=e.target.value==="physical"?"physical":"valuable";render();$("slotTitle").textContent="Select a pocket";$("slotDetail").textContent="Tap a pocket to see the card shown in this view and its market reference."};
 $("selectPage").onchange=e=>{page=Number(e.target.value);render()};$("prev").onclick=()=>{page=Math.max(1,page-1);render()};$("next").onclick=()=>{page=Math.min(store.pages.length,page+1);render()};$("clear").onclick=()=>{$("search").value="";$("searchresults").className="searchresults";page=1;render()};$("search").oninput=doSearch;
-const GENERATIONS=[
- {number:"I",region:"Kanto",start:1,end:151},
- {number:"II",region:"Johto",start:152,end:251},
- {number:"III",region:"Hoenn",start:252,end:386},
- {number:"IV",region:"Sinnoh",start:387,end:493},
- {number:"V",region:"Unova",start:494,end:649},
- {number:"VI",region:"Kalos",start:650,end:721},
- {number:"VII",region:"Alola",start:722,end:809},
- {number:"VIII",region:"Galar & Hisui",start:810,end:905},
- {number:"IX",region:"Paldea",start:906,end:1025}
-];
-function renderGenerationCompletion(){
- const ownedNumbers=new Set(store.owned.map(x=>Number(x.dex)).filter(n=>Number.isInteger(n)&&n>=1&&n<=1025));
- $("generationGrid").innerHTML=GENERATIONS.map(gen=>{
-  const total=gen.end-gen.start+1;
-  let owned=0;for(let dex=gen.start;dex<=gen.end;dex++)if(ownedNumbers.has(dex))owned++;
-  const percent=100*owned/total;
-  return '<article class="generationCard"><div class="generationTop"><div><div class="generationTitle">Gen '+gen.number+'</div><div class="generationRegion">'+gen.region+'</div></div><div class="generationPct">'+percent.toFixed(1)+'%</div></div>'+
-   '<div class="generationStats"><strong>'+owned+' / '+total+' species</strong><span class="generationMissing">'+(total-owned)+' missing</span></div>'+
-   '<div class="generationBar" role="progressbar" aria-label="Generation '+gen.number+' completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+percent.toFixed(1)+'"><div style="width:'+percent.toFixed(2)+'%"></div></div>'+
-   '<div class="generationRange">National Dex #'+String(gen.start).padStart(4,"0")+'–#'+String(gen.end).padStart(4,"0")+'</div></article>';
- }).join("");
-}
 function updateStats(){
  let u=new Set(store.owned.map(x=>x.dex)).size,c=store.cards.reduce((a,b)=>a+(Number(b.qty)||1),0),pct=100*u/1025;
  $("ownedCount").textContent=u;$("unfiledCount").textContent=store.owned.filter(o=>pendingPocket(o)).length;$("cardCount").textContent=c;$("percentage").textContent=pct.toFixed(1)+"%";$("bar").style.width=pct.toFixed(2)+"%";
- renderGenerationCompletion();
  const verified=store.cards.filter(c=>c.market!==""&&c.market!=null&&Number.isFinite(Number(c.market)));
  const subtotal=verified.reduce((a,c)=>a+Number(c.market)*(Number(c.qty)||1),0);
  $("valueSummary").textContent=verified.length?"$"+subtotal.toFixed(2)+" across "+verified.length+" priced cards (remaining unpriced)":"No market references yet — 0 cards priced";
