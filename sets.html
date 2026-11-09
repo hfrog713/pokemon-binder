@@ -9,11 +9,36 @@ nav{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:spac
 .layout{display:grid;grid-template-columns:295px minmax(0,1fr);gap:20px;align-items:start}.list{border:1px solid var(--line);border-radius:16px;background:#102634;padding:12px}.sectionname{font-size:11px;color:var(--mint);font-weight:800;letter-spacing:.12em;text-transform:uppercase;padding:10px 8px}.sets{display:grid;gap:7px}.setpick{width:100%;padding:12px;text-align:left;cursor:pointer;color:var(--text);background:#142e3e;border:1px solid #294a59;border-radius:11px}.setpick.active{border-color:#72e7b4;background:#163f38}.setpick:hover{border-color:#4ba486}.setpick b{display:block;font-size:13px}.setpick small{display:block;color:var(--muted);margin-top:5px;font-size:11px}.meter{height:5px;background:#29434d;border-radius:9px;overflow:hidden;margin-top:8px}.meter>i{display:block;height:100%;background:linear-gradient(90deg,#21b17c,#92efc5)}
 .details{background:#102634;border:1px solid var(--line);border-radius:16px;padding:18px;min-width:0}.sectionhead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}.summaryline{color:var(--muted);font-size:13px;line-height:1.65;margin-top:4px}.pill{border:1px solid #39745f;background:#1b4039;padding:7px 11px;border-radius:30px;font-size:12px;color:#baf6d3;font-weight:750}.controls{display:flex;gap:9px;flex-wrap:wrap;margin:18px 0}.control{background:#163042;border:1px solid #3b5d6c;color:#edffff;border-radius:10px;padding:11px;min-height:43px}.control:focus-visible{outline:2px solid var(--mint)}#cardsearch{min-width:170px;flex:1}.checks{display:flex;align-items:center;gap:7px;color:#cbdedf;font-size:12px;cursor:pointer}.checks input{accent-color:#40c893}.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:11px}table{width:100%;border-collapse:collapse;min-width:650px;font-size:13px;text-align:left}thead{background:#1b3b48}th{color:#adccd3;font-size:11px;letter-spacing:.04em;text-transform:uppercase;padding:12px 10px;white-space:nowrap}td{padding:11px 10px;border-top:1px solid #27424f;vertical-align:top}tr.owned{background:rgba(37,149,103,.13)}td:nth-child(2){font-weight:700}.badge{font-size:11px;padding:4px 7px;border-radius:8px;white-space:nowrap;border:1px solid #4a6470;color:#bbd0d9}.badge.have{background:#194b37;color:#bcffda;border-color:#399a6d}.muted{color:var(--muted)}.subnote{font-size:12px;color:var(--muted);line-height:1.65;margin-top:16px}.subnote a{color:var(--mint)}.notice{padding:10px 12px;border:1px solid #706244;background:#353322;color:#eed5a0;border-radius:10px;font-size:12px;margin-top:11px}.empty{padding:26px;text-align:center;color:var(--muted)}footer{border-top:1px solid var(--line);margin-top:30px;padding-top:20px;font-size:12px;color:#91afb8}
 @media(max-width:850px){.layout{grid-template-columns:1fr}.sets{grid-template-columns:repeat(2,minmax(0,1fr))}.list{max-height:none}}@media(max-width:550px){main{padding:19px 11px 38px}.summary{gap:6px}.metric{padding:11px}.metric strong{font-size:21px}.sets{grid-template-columns:1fr}.details{padding:12px}.controls{gap:8px}.control{width:100%}}
+/* National Pokédex generation completion — fed by the same unique-species rows as the summary. */
+.generationSection{margin:8px 0 24px;padding:21px;border:1px solid var(--line);border-radius:18px;background:#102634}
+.generationHead{display:flex;gap:12px;align-items:baseline;justify-content:space-between;flex-wrap:wrap;margin-bottom:15px}
+.generationHead h2{margin:0;font-size:21px;letter-spacing:-.025em}
+.generationHead p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+.generationGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}
+.generationCard{padding:15px;border:1px solid #365263;border-radius:13px;background:linear-gradient(150deg,#153343,#122b39);min-width:0}
+.generationTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.generationTitle{font-size:14px;font-weight:800}
+.generationRegion{color:var(--muted);font-size:12px;margin-top:3px}
+.generationPct{color:var(--mint);font-size:19px;font-weight:850;font-variant-numeric:tabular-nums}
+.generationStats{display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap;font-size:12px;margin-top:12px}
+.generationStats strong{font-weight:800}
+.generationMissing{color:var(--muted)}
+.generationBar{height:9px;border-radius:20px;background:#294450;overflow:hidden;margin-top:10px}
+.generationBar>div{height:100%;background:linear-gradient(90deg,#18b579,#7debb4);transition:width .3s}
+.generationRange{font-size:11px;color:#9ab9c3;margin-top:10px}
+@media(max-width:800px){.generationGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.generationSection{padding:15px}.generationGrid{grid-template-columns:1fr}.generationHead{display:block}.generationHead p{margin-top:6px}}
+
 </style></head><body><main>
 <nav><div><div class="eyebrow">Collection tracker / expansions</div><div class="brand">Pokémon <em>Sets</em></div></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="navlink" href="./values.html">Collection Value History</a><a class="navlink" href="./index.html">← National Pokédex Binder</a></div></nav>
 <h1>Every set. Every card. Your progress.</h1>
 <p class="description">Complete numbered-card checklists, including secret rares, with your owned cards highlighted. The ownership status comes from the public read-only mirror of your private collection spreadsheet. Recorded finishes appear alongside each card; special master-set variants are tracked separately until individually verified.</p>
 <div class="summary"><div class="metric"><strong id="setcount">17</strong><span>Set, promo & energy groups</span></div><div class="metric"><strong id="catalogcount">—</strong><span>Catalog entries tracked</span></div><div class="metric"><strong id="sync">Connecting…</strong><span>Checklist feed status</span></div></div>
+<section class="generationSection" id="generation-completion" aria-labelledby="generationHeading">
+ <div class="generationHead"><h2 id="generationHeading">Generation Completion</h2><p>Unique National Pokédex species you own · updates with the collection feed <span id="generationSync">· Connecting…</span></p></div>
+ <div class="generationGrid" id="generationGrid" aria-live="polite"><div class="subnote">Loading generation completion…</div></div>
+ <p class="subnote">Each National Pokédex number counts once, regardless of duplicates, regional forms, or Mega Evolutions. “Missing” means not yet recorded as owned, not proof that a binder pocket was checked.</p>
+</section>
 <section class="layout"><aside class="list"><div class="sectionname">Choose a set</div><div class="sets" id="sets"></div></aside>
 <article class="details"><div class="sectionhead"><div><div class="eyebrow">Expansion checklist</div><h2 id="title">Delta Reign</h2><div class="summaryline" id="info">Loading numbered checklist…</div></div><span class="pill" id="pct">—</span></div>
 <div class="meter" style="height:9px;margin:16px 0 2px"><i id="progress" style="width:0%"></i></div><div id="setnote" class="subnote"></div>
@@ -38,6 +63,44 @@ function loadTab(which,range,headers=0){
   document.head.appendChild(script)
  })
 }
+const GENERATIONS=[
+ {number:"I",region:"Kanto",start:1,end:151},
+ {number:"II",region:"Johto",start:152,end:251},
+ {number:"III",region:"Hoenn",start:252,end:386},
+ {number:"IV",region:"Sinnoh",start:387,end:493},
+ {number:"V",region:"Unova",start:494,end:649},
+ {number:"VI",region:"Kalos",start:650,end:721},
+ {number:"VII",region:"Alola",start:722,end:809},
+ {number:"VIII",region:"Galar & Hisui",start:810,end:905},
+ {number:"IX",region:"Paldea",start:906,end:1025}
+];
+function renderGenerationCompletion(ownedNumbers){
+ $("generationGrid").innerHTML=GENERATIONS.map(gen=>{
+  const total=gen.end-gen.start+1;
+  let owned=0;for(let dex=gen.start;dex<=gen.end;dex++)if(ownedNumbers.has(dex))owned++;
+  const percent=100*owned/total;
+  return '<article class="generationCard"><div class="generationTop"><div><div class="generationTitle">Gen '+gen.number+'</div><div class="generationRegion">'+gen.region+'</div></div><div class="generationPct">'+percent.toFixed(1)+'%</div></div>'+
+   '<div class="generationStats"><strong>'+owned+' / '+total+' species</strong><span class="generationMissing">'+(total-owned)+' missing</span></div>'+
+   '<div class="generationBar" role="progressbar" aria-label="Generation '+gen.number+' completion" aria-valuemin="0" aria-valuemax="100" aria-valuenow="'+percent.toFixed(1)+'"><div style="width:'+percent.toFixed(2)+'%"></div></div>'+
+   '<div class="generationRange">National Dex #'+String(gen.start).padStart(4,"0")+'–#'+String(gen.end).padStart(4,"0")+'</div></article>';
+ }).join("");
+}
+async function refreshGenerationCompletion(){
+ const sync=$("generationSync");
+ sync.textContent="· Checking live records…";
+ try{
+  const rows=await loadTab("Species Owned","A1:H350",1);
+  const ownedNumbers=new Set(rows
+   .filter(r=>Number.isInteger(Number(r[0]))&&Number(r[0])>=1&&Number(r[0])<=1025&&/^Owned/i.test(String(r[3]||"")))
+   .map(r=>Number(r[0])));
+  if(!ownedNumbers.size)throw Error("No owned species returned");
+  renderGenerationCompletion(ownedNumbers);
+  sync.textContent="· Live · "+ownedNumbers.size+" species tracked";
+ }catch(e){
+  sync.textContent="· Live species feed unavailable · reload to retry";
+ }
+}
+
 function summaryFor(set){const row=overview.get(set.name);if(!row)return null;const have=Number(row[1])||0;const total=Number(row[2])||null;return{have,total,pct:total?100*have/total:0,variant:row[4]||""}}
 function renderPicks(){if(!catalog)return;const html=catalog.sets.map(set=>{let m=summaryFor(set);let label=m?(m.total?m.have+" / "+m.total+" numbered · "+(100*m.have/m.total).toFixed(1)+"%":m.have+" tracked · ongoing series"):"Click to view the checklist";return '<button type="button" class="setpick'+(set.id===activeId?" active":"")+'" data-set="'+escapeHtml(set.id)+'" aria-pressed="'+(set.id===activeId)+'"><b>'+escapeHtml(set.name)+'</b><small>'+escapeHtml(label)+'</small>'+(m?.total?'<div class="meter"><i style="width:'+Math.min(100,m.pct)+'%"></i></div>':"")+'</button>'}).join("");$("sets").innerHTML=html;$("sets").querySelectorAll("[data-set]").forEach(b=>b.addEventListener("click",()=>selectSet(b.dataset.set)))}
 function offsetFor(set){let first=2;for(const s of catalog.sets){if(s.id===set.id)return{first,last:first+s.cards.length-1};first+=s.cards.length}throw Error("Set missing from catalog")}
@@ -58,6 +121,7 @@ function renderCards(set){const rows=dataBySet.get(set.id);showInfo(set,rows);if
 }
 async function selectSet(id){activeId=id;const set=catalog?.sets.find(s=>s.id===id);if(!set)return;renderPicks();showInfo(set,dataBySet.get(id));$("rows").innerHTML='<tr><td colspan="5" class="empty">Loading live ownership for this set…</td></tr>';try{await fetchSet(set);if(activeId===id){renderCards(set);$("sync").textContent="Live";$("sync").style.color="#94f4be"}}catch(e){if(activeId===id){renderCards(set);$("sync").textContent="Review feed";$("sync").style.color="#ffd68a";$("setnote").textContent+=" The public Google Sheet could not supply the card rows: "+e.message}}}
 async function start(){try{const resp=await fetch("./set-catalog.json",{cache:"no-store"});if(!resp.ok)throw Error("Catalog not loaded");catalog=await resp.json();$("setcount").textContent=catalog.sets.length;$("catalogcount").textContent=catalog.sets.reduce((n,s)=>n+s.cards.length,0).toLocaleString();renderPicks();await Promise.allSettled([loadTab("Set Summary","A1:G30",1).then(rows=>{overview=new Map(rows.filter(r=>r[0]&&r[0]!=="Tracked expansion").map(r=>[String(r[0]),r]));renderPicks()})]);await selectSet(activeId)}catch(e){$("sync").textContent="Offline";$("rows").innerHTML='<tr><td colspan="5" class="empty">Could not load the catalog. '+escapeHtml(e.message)+'</td></tr>'}}
-$("cardsearch").oninput=()=>{const s=catalog?.sets.find(x=>x.id===activeId);if(s)renderCards(s)};$("filter").onchange=()=>{const s=catalog?.sets.find(x=>x.id===activeId);if(s)renderCards(s)};$("reload").onclick=()=>{dataBySet.delete(activeId);const s=catalog?.sets.find(x=>x.id===activeId);if(s)selectSet(s.id)};
+$("cardsearch").oninput=()=>{const s=catalog?.sets.find(x=>x.id===activeId);if(s)renderCards(s)};$("filter").onchange=()=>{const s=catalog?.sets.find(x=>x.id===activeId);if(s)renderCards(s)};$("reload").onclick=()=>{refreshGenerationCompletion();dataBySet.delete(activeId);const s=catalog?.sets.find(x=>x.id===activeId);if(s)selectSet(s.id)};
+refreshGenerationCompletion();
 start();
 </script></body></html>
