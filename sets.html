@@ -32,7 +32,7 @@ nav{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:spac
 </style></head><body><main>
 <nav><div><div class="eyebrow">Collection tracker / expansions</div><div class="brand">Pokémon <em>Sets</em></div></div><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="navlink" href="./values.html">Collection Value History</a><a class="navlink" href="./index.html">← National Pokédex Binder</a></div></nav>
 <h1>Every set. Every card. Your progress.</h1>
-<p class="description">Complete numbered-card checklists, including secret rares, with your owned cards highlighted. The ownership status comes from the public read-only mirror of your private collection spreadsheet. Recorded finishes appear alongside each card; special master-set variants are tracked separately until individually verified.</p>
+<p class="description">Complete numbered-card checklists, including secret rares, with your owned cards highlighted. Ownership is reconciled from your recorded set checklist and physical holdings; duplicates count once per collector number. Recorded finishes appear alongside each card; special master-set variants are tracked separately until individually verified.</p>
 <div class="summary"><div class="metric"><strong id="setcount">17</strong><span>Set, promo & energy groups</span></div><div class="metric"><strong id="catalogcount">—</strong><span>Catalog entries tracked</span></div><div class="metric"><strong id="sync">Connecting…</strong><span>Checklist feed status</span></div></div>
 <section class="generationSection" id="generation-completion" aria-labelledby="generationHeading">
  <div class="generationHead"><h2 id="generationHeading">Generation Completion</h2><p>Unique National Pokédex species you own · updates with the collection feed <span id="generationSync">· Connecting…</span></p></div>
@@ -50,7 +50,7 @@ nav{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:spac
 "use strict";
 const PUBLIC_SHEET="1Jrw80VgoSuXHK0RVL1nvubvQzTWDPGrHR_KkBsdX26o";
 const $=id=>document.getElementById(id), escapeHtml=x=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-let catalog=null,overview=new Map(),activeId="me06",dataBySet=new Map(),loadingSets=new Map();
+let catalog=null,ownership=null,overview=new Map(),activeId="me06",dataBySet=new Map(),loadingSets=new Map();
 function loadTab(which,range,headers=0){
  return new Promise((resolve,reject)=>{
   const cb="pokemonSetCheck_"+Date.now()+"_"+Math.random().toString(36).slice(2);
@@ -101,11 +101,17 @@ async function refreshGenerationCompletion(){
  }
 }
 
-function summaryFor(set){const row=overview.get(set.name);if(!row)return null;const have=Number(row[1])||0;const total=Number(row[2])||null;return{have,total,pct:total?100*have/total:0,variant:row[4]||""}}
+function summaryFor(set){const local=ownership?.sets?.[set.id];if(local){const have=local.owned,total=set.total;return {have,total,pct:total?100*have/total:0,variant:"Reconciled against physical holdings 2026-11-21; unique collector numbers, not copies"}}const row=overview.get(set.name);if(!row)return null;const have=Number(row[1])||0,total=Number(row[2])||null;return{have,total,pct:total?100*have/total:0,variant:row[4]||""}}
 function renderPicks(){if(!catalog)return;const html=catalog.sets.map(set=>{let m=summaryFor(set);let label=m?(m.total?m.have+" / "+m.total+" numbered · "+(100*m.have/m.total).toFixed(1)+"%":m.have+" tracked · ongoing series"):"Click to view the checklist";return '<button type="button" class="setpick'+(set.id===activeId?" active":"")+'" data-set="'+escapeHtml(set.id)+'" aria-pressed="'+(set.id===activeId)+'"><b>'+escapeHtml(set.name)+'</b><small>'+escapeHtml(label)+'</small>'+(m?.total?'<div class="meter"><i style="width:'+Math.min(100,m.pct)+'%"></i></div>':"")+'</button>'}).join("");$("sets").innerHTML=html;$("sets").querySelectorAll("[data-set]").forEach(b=>b.addEventListener("click",()=>selectSet(b.dataset.set)))}
 const PACK12_SET_START_ROWS={"swsh9":2254,"swsh9tg":2440,"sm1":2671,"xy5":2844,"swsh7":3008,"sm2":3245,"swsh6":3425,"sm12":3658,"sm35":3930,"sm3":4011};
 function offsetFor(set){if(Object.prototype.hasOwnProperty.call(PACK12_SET_START_ROWS,set.id)){const first=PACK12_SET_START_ROWS[set.id];return {first,last:first+set.cards.length-1}}let first=2;for(const s of catalog.sets){if(s.id===set.id)return{first,last:first+s.cards.length-1};first+=s.cards.length}throw Error("Set missing from catalog")}
-async function fetchSet(set){if(dataBySet.has(set.id))return dataBySet.get(set.id);if(loadingSets.has(set.id))return loadingSets.get(set.id);const{first,last}=offsetFor(set);const work=loadTab("Set Checklist","A"+first+":L"+last,0).then(rows=>{const valid=rows.filter(r=>r[1]===set.id);if(valid.length!==set.cards.length)throw Error("Checklist incomplete: "+valid.length+" / "+set.cards.length);dataBySet.set(set.id,valid);return valid}).finally(()=>loadingSets.delete(set.id));loadingSets.set(set.id,work);return work}
+async function fetchSet(set){
+ if(dataBySet.has(set.id))return dataBySet.get(set.id);
+ const local=ownership?.sets?.[set.id];
+ if(!local)throw Error("Reconciled checklist not loaded");
+ const rows=local.entries.map(e=>[set.name,set.id,e.number,e.name,e.rarity,"Numbered",e.owned?"Owned":"Missing",e.qty,e.finishes,e.source,e.basis]);
+ dataBySet.set(set.id,rows);return rows;
+}
 function showInfo(set,rows){const m=summaryFor(set);const owned=rows?rows.filter(r=>r[6]==="Owned").length:(m?.have??null);const total=set.total;const denom=total!=null?total:set.cards.length;
  $("title").textContent=set.name;
  $("info").textContent=(owned==null?"—":owned)+" / "+(total??"open-ended")+" card numbers owned"+(total?" ("+(100*owned/total).toFixed(1)+"% of the numbered set)":"")+" · "+(set.official?"Main set through #"+set.official:"Special subset / ongoing series");
@@ -114,14 +120,14 @@ function showInfo(set,rows){const m=summaryFor(set);const owned=rows?rows.filter
  const note=(set.notes||"")+(m?.variant?" Variant scope: "+m.variant+".":"");
  $("setnote").textContent=note;
 }
-function renderCards(set){const rows=dataBySet.get(set.id);showInfo(set,rows);if(!rows){$("rows").innerHTML='<tr><td colspan="5" class="empty">Live checklist unavailable. Try Refresh. No ownership has been assumed.</td></tr>';$("countshown").textContent="";return}
+function renderCards(set){const rows=dataBySet.get(set.id);showInfo(set,rows);if(!rows){$("rows").innerHTML='<tr><td colspan="5" class="empty">Reconciled checklist unavailable. Try Refresh.</td></tr>';$("countshown").textContent="";return}
  const term=$("cardsearch").value.toLowerCase().trim(),filter=$("filter").value;
  const shown=rows.filter(r=>(!term||[r[2],r[3],r[4],r[7],r[8]].some(x=>String(x||"").toLowerCase().includes(term)))&&(filter==="all"||(filter==="owned"&&r[6]==="Owned")||(filter==="missing"&&r[6]!=="Owned")||(filter==="secret"&&["Secret","RGB bonus","Classic reprint"].includes(String(r[5])))));
  $("rows").innerHTML=shown.map(r=>{let owned=r[6]==="Owned",status=owned?"✓ Owned":"Missing",finish=owned?(String(r[8]||"Unverified")+" · ×"+(Number(r[7])||1)):"—";return '<tr class="'+(owned?"owned":"")+'"><td>'+escapeHtml(r[2])+'</td><td>'+escapeHtml(r[3])+'</td><td><span class="muted">'+escapeHtml(r[4])+'</span><br><span class="muted">'+escapeHtml(r[5])+'</span></td><td><span class="badge '+(owned?"have":"")+'">'+status+'</span>'+(owned&&String(r[10]).includes("verify")?'<div class="muted" style="font-size:10px;margin-top:4px">Printing to verify</div>':"")+'</td><td>'+escapeHtml(finish)+'</td></tr>'}).join("")||'<tr><td colspan="5" class="empty">No cards match this filter.</td></tr>';
- $("countshown").textContent="Showing "+shown.length+" of "+rows.length+" catalog entries · Owned statuses reflect your most recently synchronized spreadsheet.";
+ $("countshown").textContent="Showing "+shown.length+" of "+rows.length+" catalog entries · Owned statuses reflect the latest reconciled inventory snapshot.";
 }
-async function selectSet(id){activeId=id;const set=catalog?.sets.find(s=>s.id===id);if(!set)return;renderPicks();showInfo(set,dataBySet.get(id));$("rows").innerHTML='<tr><td colspan="5" class="empty">Loading live ownership for this set…</td></tr>';try{await fetchSet(set);if(activeId===id){renderCards(set);$("sync").textContent="Live";$("sync").style.color="#94f4be"}}catch(e){if(activeId===id){renderCards(set);$("sync").textContent="Review feed";$("sync").style.color="#ffd68a";$("setnote").textContent+=" The public Google Sheet could not supply the card rows: "+e.message}}}
-async function start(){try{const resp=await fetch("./set-catalog.json",{cache:"no-store"});if(!resp.ok)throw Error("Catalog not loaded");catalog=await resp.json();$("setcount").textContent=catalog.sets.length;$("catalogcount").textContent=catalog.sets.reduce((n,s)=>n+s.cards.length,0).toLocaleString();renderPicks();await Promise.allSettled([loadTab("Set Summary","A1:G30",1).then(rows=>{overview=new Map(rows.filter(r=>r[0]&&r[0]!=="Tracked expansion").map(r=>[String(r[0]),r]));renderPicks()})]);await selectSet(activeId)}catch(e){$("sync").textContent="Offline";$("rows").innerHTML='<tr><td colspan="5" class="empty">Could not load the catalog. '+escapeHtml(e.message)+'</td></tr>'}}
+async function selectSet(id){activeId=id;const set=catalog?.sets.find(s=>s.id===id);if(!set)return;renderPicks();showInfo(set,dataBySet.get(id));$("rows").innerHTML='<tr><td colspan="5" class="empty">Loading live ownership for this set…</td></tr>';try{await fetchSet(set);if(activeId===id){renderCards(set);$("sync").textContent="Reconciled";$("sync").style.color="#94f4be"}}catch(e){if(activeId===id){renderCards(set);$("sync").textContent="Review feed";$("sync").style.color="#ffd68a";$("setnote").textContent+=" The public Google Sheet could not supply the card rows: "+e.message}}}
+async function start(){try{const [resp,ownResp]=await Promise.all([fetch("./set-catalog.json",{cache:"no-store"}),fetch("./set-ownership.json",{cache:"no-store"})]);if(!resp.ok||!ownResp.ok)throw Error("Reconciled catalog not loaded");catalog=await resp.json();ownership=await ownResp.json();$("setcount").textContent=catalog.sets.length;$("catalogcount").textContent=catalog.sets.reduce((n,s)=>n+s.cards.length,0).toLocaleString();renderPicks();renderPicks();await selectSet(activeId)}catch(e){$("sync").textContent="Offline";$("rows").innerHTML='<tr><td colspan="5" class="empty">Could not load the catalog. '+escapeHtml(e.message)+'</td></tr>'}}
 $("cardsearch").oninput=()=>{const s=catalog?.sets.find(x=>x.id===activeId);if(s)renderCards(s)};$("filter").onchange=()=>{const s=catalog?.sets.find(x=>x.id===activeId);if(s)renderCards(s)};$("reload").onclick=()=>{refreshGenerationCompletion();dataBySet.delete(activeId);const s=catalog?.sets.find(x=>x.id===activeId);if(s)selectSet(s.id)};
 refreshGenerationCompletion();
 start();
