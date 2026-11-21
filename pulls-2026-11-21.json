@@ -11,12 +11,12 @@
   },
   "deltaReign": {
     "ownedNumbers": 104,
-    "confirmedNumbered": 103,
-    "pendingPrinting": 1,
+    "confirmedNumbered": 104,
+    "pendingPrinting": 0,
     "totalNumbers": 141,
     "percentage": 73.76,
     "provisional": true,
-    "notes": "Full holdings/checklist audit; Mega Golisopod ex #011 owner-confirmed; Enamorus printing pending"
+    "notes": "Enamorus #048 and Mega Golisopod ex #011 owner confirmed; some other numbers photo-inferred"
   },
   "generations": [
     {
