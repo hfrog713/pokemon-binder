@@ -55,9 +55,16 @@ function loadHistory(){
 
 async function loadRankings(){const res=await fetch("./rankings.json?cache="+Date.now(),{cache:"no-store"});if(!res.ok)throw Error("Rankings file unavailable");return res.json()}
 function safeUrl(x){try{const u=new URL(String(x));return u.protocol==="https:"?u.href:""}catch(e){return ""}}
+const EXACT_CARD_IMAGES={
+ "N21-BOOSTER01-09":"https://billsarchive.com/assets/delta-reign/small/me06-140_zinnias_trust_sir.webp",
+ "U-20261109-010":"https://billsarchive.com/assets/delta-reign/small/me06-106_growlithe_ir.webp",
+ "U-20261108-010":"https://billsarchive.com/assets/delta-reign/small/me06-084_mega_rayquaza_ex.webp"
+};
 const IMAGE_SETS={"Surging Sparks":"sv8","Obsidian Flames":"sv3","151":"sv3pt5","Celebrations – Classic Collection":"cel25c","Team Rocket":"base5"};
 function cardImage(c){
- const set=IMAGE_SETS[c.set];const n=String(c.number||"").split("/")[0];if(!set||!/^\d+$/.test(n))return "";
+ if(EXACT_CARD_IMAGES[c.id])return EXACT_CARD_IMAGES[c.id];
+ const set=IMAGE_SETS[c.set],n=String(c.number||"").split("/")[0];
+ if(!set||!/^\d+$/.test(n))return "";
  return "https://assets.tcgdex.net/en/"+(set==="base5"?"base":"sv")+"/"+set+"/"+String(Number(n))+"/high.webp";
 }
 function drawReconciled(id,cards,kind){
