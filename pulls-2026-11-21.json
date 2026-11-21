@@ -729,16 +729,16 @@
     },
     {
       "id": "N21-BOOSTER03-07",
-      "name": "Zinnia's Trust",
+      "name": "Unresolved Booster #3 card",
       "set": "Delta Reign",
-      "number": "140/103",
-      "finish": "Special Illustration Rare — owner confirmed collector number",
+      "number": "Unverified",
+      "finish": "Identity disputed; not a second confirmed Zinnia's Trust SIR",
       "quantity": 1,
-      "market": 30.61,
+      "market": null,
       "status": "Duplicates/extras • placement unconfirmed",
-      "notes": "PULL-20261121-BOOSTER03; IMG_A118718D-12EA-4E66-B01F-18936C0DC79B.jpeg; Collector number 140/103 explicitly confirmed by owner; market price requires dated verification; photo-inferred details provisional; one physical copy",
-      "priceSource": "YesTCG Delta Reign 140/103 owner-confirmed",
-      "priceUrl": "https://yestcg.com/cards/pokemon/sets/delta-reign"
+      "notes": "Owner confirms only one Zinnia's Trust SIR. This physical card remains in inventory but exact identity and valuation are unresolved.",
+      "priceSource": "",
+      "priceUrl": ""
     },
     {
       "id": "N21-BOOSTER03-08",
@@ -2978,11 +2978,11 @@
     }
   ],
   "valuation": {
-    "pricedCopies": 224,
-    "unpricedCopies": 0,
-    "pricedSubtotalUSD": 95.98,
+    "pricedCopies": 223,
+    "unpricedCopies": 1,
+    "pricedSubtotalUSD": 65.37,
     "method": "Estimated ungraded raw values; base-print proxies for unverified collector numbers/finishes; excludes unpriced copies; not sale proceeds",
     "asOf": "2026-11-21",
-    "estimatedDifferenceUSD": 4.1
+    "estimatedDifferenceUSD": -26.51
   }
 }
