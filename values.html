@@ -127,78 +127,11 @@ function drawReconciled(id,cards,kind){
   const link=safeUrl(src)?'<a class="rankSource" href="'+esc(src)+'" target="_blank" rel="noopener noreferrer">Price reference</a>':'<small>Price source not linked</small>';
   return '<li><span class="rankNum">'+(i+1)+'</span>'+art+'<div class="rankMeta"><strong>'+esc(c.name)+'</strong><small>'+esc([c.set,c.number,c.finish].filter(Boolean).join(" · "))+'</small><small>'+esc(c.id)+' · '+esc(date||"Date unknown")+'</small>'+link+'</div><span class="rankValue">'+esc(fmt(price))+'</span></li>';
  }).join("");
+ target.querySelectorAll("img.rankArt").forEach(img=>img.addEventListener("error",()=>applyImageFallback(img)));
 }
 async function refreshTopCards(){
  $("topSync").textContent="Loading collection-filtered rankings…";
  try{const d=await loadRankings();await loadBinderCardImages();await hydrateTopCardImages([...new Map([...d.raw,...d.psa].map(c=>[c.id,c])).values()]);drawReconciled("topRaw",d.raw,"raw");drawReconciled("topPSA",d.psa,"psa");$("topSync").textContent=d.coverage.copies+" owned physical copies · "+d.coverage.psaResearched+" PSA 10 printings researched · prices last reviewed "+d.asOf;}
- catch(e){$("topSync").textContent="Unable to load rankings: "+e.message;}
-}
-function renderGraph(data){
- const w=940,h=280,padL=80,padR=32,padT=18,padB=47,fw=w-padL-padR,fh=h-padT-padB;
- const nums=data.map(x=>x.value),max=Math.max(1,...nums)*1.12,lower=0;
- const points=data.map((x,i)=>({x:padL+(data.length===1?fw/2:fw*i/(data.length-1)),y:padT+fh*(1-(x.value-lower)/(max-lower)),...x}));
- const grid=[0,.25,.5,.75,1].map(n=>{const y=padT+fh*(1-n);return '<line x1="'+padL+'" x2="'+(w-padR)+'" y1="'+y+'" y2="'+y+'" stroke="#294653"/><text x="7" y="'+(y+4)+'">'+esc(fmt(max*n))+'</text>'}).join("");
- const line=points.map(p=>p.x+","+p.y).join(" ");
- const dots=points.map(p=>'<circle cx="'+p.x+'" cy="'+p.y+'" r="5" fill="#60e6ab"><title>'+esc(p.date+" "+fmt(p.value))+'</title></circle>').join("");
- const start=points[0],end=points.at(-1);
- const labels='<text x="'+start.x+'" y="'+(h-12)+'" text-anchor="middle">'+esc(start.date)+'</text>'+(points.length>1?'<text x="'+end.x+'" y="'+(h-12)+'" text-anchor="end">'+esc(end.date)+'</text>':"");
- $("chart").innerHTML='<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="Collection value history from '+esc(start.date)+' through '+esc(end.date)+'">'+grid+(points.length>1?'<polyline points="'+line+'" fill="none" stroke="#60e6ab" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>':"")+dots+labels+'</svg>';
-}
-async function refresh(){
- $("sync").textContent="Loading latest recorded snapshots…";
- try{
-  const raw=await loadHistory();const data=raw.filter(r=>/^\d{4}-\d{2}-\d{2}$/.test(String(r[0]))&&r[7]!==""&&Number.isFinite(money(r[7]))).map(r=>({date:String(r[0]),event:String(r[2]||""),count:Number(r[3])||0,copies:Number(r[4])||0,priced:Number(r[5])||0,unpriced:Number(r[6])||0,value:money(r[7]),notes:String(r[11]||"")})).sort((a,b)=>a.date.localeCompare(b.date));
-  if(!data.length)throw Error("No published snapshots");
-  const latest=data.at(-1);$("total").textContent=fmt(latest.value);$("copies").textContent=integer(latest.priced);$("asof").textContent=latest.date;
-  renderGraph(data);
-  $("rows").innerHTML=[...data].reverse().map(r=>'<tr><td>'+esc(r.date)+'</td><td>'+esc(r.event)+'</td><td>'+esc(integer(r.count)+" IDs / "+integer(r.copies)+" copies")+'</td><td>'+esc(fmt(r.value))+'</td><td>'+esc(integer(r.priced)+" priced; "+integer(r.unpriced)+" unpriced")+'</td></tr>').join("");
-  $("sync").textContent=data.length+" saved snapshot"+(data.length===1?"":"s")+" · refreshed from public spreadsheet";
- }catch(e){$("sync").textContent="Could not refresh: "+e.message;$("chart").innerHTML='<p>Valuation history feed unavailable; the master spreadsheet remains the authoritative record.</p>'}
-}
-$("reload").addEventListener("click",refresh);$("topReload").addEventListener("click",refreshTopCards);refresh();refreshTopCards();
-</script></body></html target.querySelectorAll("img.rankArt").forEach(img=>img.addEventListener("error",()=>applyImageFallback(img)));
-}
-
-async function loadRankings(){const res=await fetch("./rankings.json?cache="+Date.now(),{cache:"no-store"});if(!res.ok)throw Error("Rankings file unavailable");return res.json()}
-function safeUrl(x){try{const u=new URL(String(x));return u.protocol==="https:"?u.href:""}catch(e){return ""}}
-const EXACT_CARD_IMAGES={
- "N21-BOOSTER01-09":"https://billsarchive.com/assets/delta-reign/small/me06-140_zinnias_trust_sir.webp",
- "U-20261109-010":"https://billsarchive.com/assets/delta-reign/small/me06-106_growlithe_ir.webp",
- "U-20261108-010":"https://billsarchive.com/assets/delta-reign/small/me06-084_mega_rayquaza_ex.webp",
- "U-20261109-001":"https://img.illudex.com/mep-117/high.webp?v=e2f4a4b5",
- "P-0169":"https://billsarchive.com/assets/delta-reign/small/me06-108_electivire_ir.webp"
-};
-const IMAGE_SETS={"Surging Sparks":["sv","sv8"],"Obsidian Flames":["sv","sv3"],"151":["sv","sv3pt5"],"Celebrations – Classic Collection":["swsh","cel25c"],"Team Rocket":["base","base5"]};
-function cardImageCandidates(c){
- const exact=EXACT_CARD_IMAGES[c.id],spec=IMAGE_SETS[c.set],num=String(c.number||"").split("/")[0];
- if(!spec||!/^\d+$/.test(num))return exact?[exact]:[];
- const [era,set]=spec,n=String(Number(num));
- const urls=["https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/high.webp","https://images.pokemontcg.io/"+set+"/"+n+"_hires.png","https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/low.webp"];
- if(exact)urls.unshift(exact);
- return [...new Set(urls)];
-}
-function applyImageFallback(img){
- const urls=JSON.parse(img.dataset.sources||"[]");
- const next=Number(img.dataset.at||"0")+1;
- if(next<urls.length){img.dataset.at=String(next);img.src=urls[next];return}
- const placeholder=document.createElement("span");
- placeholder.className="rankArt blank";placeholder.textContent="★";
- placeholder.title="Exact printing artwork unavailable from configured sources";
- img.replaceWith(placeholder);
-}
-function drawReconciled(id,cards,kind){
- const target=$(id);
- if(!cards.length){target.innerHTML='<li class="rankEmpty">No researched estimates available.</li>';return}
- target.innerHTML=cards.map((c,i)=>{
-  const sources=cardImageCandidates(c), art=sources.length?'<img class="rankArt" src="'+esc(sources[0])+'" data-sources="'+esc(JSON.stringify(sources))+'" data-at="0" alt="'+esc(c.name)+' card artwork" loading="lazy">':'<span class="rankArt blank" aria-hidden="true">★</span>';
-  const src=kind==="psa"?c.psaSource:c.rawSource, date=kind==="psa"?c.psaDate:c.rawDate, price=kind==="psa"?c.psa:c.raw;
-  const link=safeUrl(src)?'<a class="rankSource" href="'+esc(src)+'" target="_blank" rel="noopener noreferrer">Price reference</a>':'<small>Price source not linked</small>';
-  return '<li><span class="rankNum">'+(i+1)+'</span>'+art+'<div class="rankMeta"><strong>'+esc(c.name)+'</strong><small>'+esc([c.set,c.number,c.finish].filter(Boolean).join(" · "))+'</small><small>'+esc(c.id)+' · '+esc(date||"Date unknown")+'</small>'+link+'</div><span class="rankValue">'+esc(fmt(price))+'</span></li>';
- }).join("");
-}
-async function refreshTopCards(){
- $("topSync").textContent="Loading collection-filtered rankings…";
- try{const d=await loadRankings();drawReconciled("topRaw",d.raw,"raw");drawReconciled("topPSA",d.psa,"psa");$("topSync").textContent=d.coverage.copies+" owned physical copies · "+d.coverage.psaResearched+" PSA 10 printings researched · prices last reviewed "+d.asOf;}
  catch(e){$("topSync").textContent="Unable to load rankings: "+e.message;}
 }
 function renderGraph(data){
