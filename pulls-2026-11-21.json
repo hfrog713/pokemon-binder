@@ -729,16 +729,16 @@
     },
     {
       "id": "N21-BOOSTER03-07",
-      "name": "Unresolved Booster #3 card",
+      "name": "Zinnia's Trust",
       "set": "Delta Reign",
-      "number": "Unverified",
-      "finish": "Identity disputed; not a second confirmed Zinnia's Trust SIR",
+      "number": "103/103",
+      "finish": "Regular Supporter • owner confirmed",
       "quantity": 1,
-      "market": null,
+      "market": 0.12,
       "status": "Duplicates/extras • placement unconfirmed",
-      "notes": "Owner confirms only one Zinnia's Trust SIR. This physical card remains in inventory but exact identity and valuation are unresolved.",
-      "priceSource": "",
-      "priceUrl": ""
+      "notes": "Owner confirmed regular Zinnia's Trust 103/103, distinct from sole SIR 140/103 in Booster 1",
+      "priceSource": "Provisional regular-print estimate",
+      "priceUrl": "https://yestcg.com/cards/pokemon/sets/delta-reign"
     },
     {
       "id": "N21-BOOSTER03-08",
@@ -784,7 +784,7 @@
       "name": "Raikou ex",
       "set": "Delta Reign",
       "number": "033/103",
-      "finish": "ex • foil",
+      "finish": "Double Rare • ex foil; owner confirmed collector number",
       "quantity": 1,
       "market": 0.53,
       "status": "Binder candidate P9 R3C5",
@@ -2978,11 +2978,11 @@
     }
   ],
   "valuation": {
-    "pricedCopies": 223,
-    "unpricedCopies": 1,
-    "pricedSubtotalUSD": 65.37,
+    "pricedCopies": 224,
+    "unpricedCopies": 0,
+    "pricedSubtotalUSD": 65.49,
     "method": "Estimated ungraded raw values; base-print proxies for unverified collector numbers/finishes; excludes unpriced copies; not sale proceeds",
     "asOf": "2026-11-21",
-    "estimatedDifferenceUSD": -26.51
+    "estimatedDifferenceUSD": -26.39
   }
 }
