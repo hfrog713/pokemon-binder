@@ -214,10 +214,10 @@
       "number": "Unverified",
       "finish": "Finish pending photo verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.1,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER02; IMG_6467DC27-DD38-4AD1-88BF-F25D051D8488.jpeg; Exact collector number and finish pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Owner-approved provisional $0.10 estimate; exact printing and finish unverified",
       "priceUrl": null
     },
     {
@@ -1228,10 +1228,10 @@
       "number": "Unverified",
       "finish": "Finish pending verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.1,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER03; IMG_7588.jpeg; Exact collector number / finish to verify; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Owner-approved provisional $0.10 estimate; exact printing and finish unverified",
       "priceUrl": null
     },
     {
@@ -1956,10 +1956,10 @@
       "number": "Unverified",
       "finish": "Unverified",
       "quantity": 1,
-      "market": null,
+      "market": 0.1,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER04; IMG_2F359CE3-D30C-4FDA-B36C-F6035253C3D3.jpeg; Exact finish / collector number verify; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Owner-approved provisional $0.10 estimate; exact printing and finish unverified",
       "priceUrl": null
     },
     {
@@ -2398,10 +2398,10 @@
       "number": "Unverified",
       "finish": "Finish pending",
       "quantity": 1,
-      "market": null,
+      "market": 0.1,
       "status": "Binder/duplicates placement pending",
       "notes": "BLISTER01; photo prior blister #1; provisional identity from prior photo review; Pokédex 86; distinct physical copy",
-      "priceSource": "Price pending",
+      "priceSource": "Owner-approved provisional $0.10 estimate; exact printing and finish unverified",
       "priceUrl": null
     },
     {
@@ -2619,10 +2619,10 @@
       "number": "Unverified",
       "finish": "Finish pending",
       "quantity": 1,
-      "market": null,
+      "market": 0.1,
       "status": "Binder/duplicates placement pending",
       "notes": "BLISTER01; photo prior blister #1; provisional identity from prior photo review; Pokédex 686; distinct physical copy",
-      "priceSource": "Price pending",
+      "priceSource": "Owner-approved provisional $0.10 estimate; exact printing and finish unverified",
       "priceUrl": null
     },
     {
@@ -2978,10 +2978,11 @@
     }
   ],
   "valuation": {
-    "pricedCopies": 219,
-    "unpricedCopies": 5,
-    "pricedSubtotalUSD": 95.48,
+    "pricedCopies": 224,
+    "unpricedCopies": 0,
+    "pricedSubtotalUSD": 95.98,
     "method": "Estimated ungraded raw values; base-print proxies for unverified collector numbers/finishes; excludes unpriced copies; not sale proceeds",
-    "asOf": "2026-11-21"
+    "asOf": "2026-11-21",
+    "estimatedDifferenceUSD": 4.1
   }
 }
