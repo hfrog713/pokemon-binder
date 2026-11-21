@@ -133,13 +133,13 @@
       "number": "032/82",
       "finish": "Base • Unlimited (no 1st Edition stamp)",
       "qty": 1,
-      "raw": 4.99,
-      "rawDate": "2026-11-07",
+      "raw": 6.21,
+      "rawDate": "2026-11-21",
       "rawSource": "",
-      "psa": 715,
-      "psaDate": "2026-11-08",
-      "psaSource": "https://collectsherpa.com/cards/english/dark-charmeleon-32-82-unlimited-84574/psa/10",
-      "psaNote": "Low-confidence estimate; PSA 10 sold data sparse (5 sales), last recorded Jan 16, 2026; UNLIMITED, not 1st Edition"
+      "psa": 202.61,
+      "psaDate": "2026-11-21",
+      "psaSource": "",
+      "psaNote": "Owner-provided PSA 10 estimate for Team Rocket 032/82 Unlimited; not independently verified against sold listings. Not First Edition."
     },
     {
       "id": "P-0169",
@@ -159,21 +159,6 @@
   ],
   "psa": [
     {
-      "id": "P-0149",
-      "name": "Dark Charmeleon",
-      "set": "Team Rocket",
-      "number": "032/82",
-      "finish": "Base • Unlimited (no 1st Edition stamp)",
-      "qty": 1,
-      "raw": 4.99,
-      "rawDate": "2026-11-07",
-      "rawSource": "",
-      "psa": 715,
-      "psaDate": "2026-11-08",
-      "psaSource": "https://collectsherpa.com/cards/english/dark-charmeleon-32-82-unlimited-84574/psa/10",
-      "psaNote": "Low-confidence estimate; PSA 10 sold data sparse (5 sales), last recorded Jan 16, 2026; UNLIMITED, not 1st Edition"
-    },
-    {
       "id": "P-0022",
       "name": "Gloom",
       "set": "Obsidian Flames",
@@ -187,6 +172,21 @@
       "psaDate": "2026-11-08",
       "psaSource": "https://www.pokeinvest.io/card/obsidian-flames/gloom-198",
       "psaNote": "Median completed PSA 10 sales; 57 reported"
+    },
+    {
+      "id": "P-0149",
+      "name": "Dark Charmeleon",
+      "set": "Team Rocket",
+      "number": "032/82",
+      "finish": "Base • Unlimited (no 1st Edition stamp)",
+      "qty": 1,
+      "raw": 6.21,
+      "rawDate": "2026-11-21",
+      "rawSource": "",
+      "psa": 202.61,
+      "psaDate": "2026-11-21",
+      "psaSource": "",
+      "psaNote": "Owner-provided PSA 10 estimate for Team Rocket 032/82 Unlimited; not independently verified against sold listings. Not First Edition."
     },
     {
       "id": "P-0013",
