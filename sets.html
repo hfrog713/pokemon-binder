@@ -117,7 +117,7 @@ function showInfo(set,rows){const m=summaryFor(set);const owned=rows?rows.filter
  $("info").textContent=(owned==null?"—":owned)+" / "+(total??"open-ended")+" card numbers owned"+(total?" ("+(100*owned/total).toFixed(1)+"% of the numbered set)":"")+" · "+(set.official?"Main set through #"+set.official:"Special subset / ongoing series");
  $("pct").textContent=total&&owned!=null?(100*owned/total).toFixed(1)+"%":(total?"—":"Ongoing");
  $("progress").style.width=total&&owned!=null?Math.min(100,100*owned/total)+"%":"0%";
- const note=(set.notes||"")+(m?.variant?" Variant scope: "+m.variant+".":"");
+ const note=(ownership?.sets?.[set.id]?"Owned counts are reconciled from historical checklist and physical inventory. Photo-based collector identifications remain provisional.":(set.notes||""))+(m?.variant?" "+m.variant+".":"");
  $("setnote").textContent=note;
 }
 function renderCards(set){const rows=dataBySet.get(set.id);showInfo(set,rows);if(!rows){$("rows").innerHTML='<tr><td colspan="5" class="empty">Reconciled checklist unavailable. Try Refresh.</td></tr>';$("countshown").textContent="";return}
