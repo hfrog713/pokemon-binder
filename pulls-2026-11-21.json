@@ -71,10 +71,10 @@
       "number": "Unverified",
       "finish": "Base",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-02; IMG_DBB9E403-FF30-4408-899F-3615F30BC2FD.jpeg; Collector # / exact finish pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -227,10 +227,10 @@
       "number": "Unverified",
       "finish": "Finish pending photo verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER02; IMG_6467DC27-DD38-4AD1-88BF-F25D051D8488.jpeg; Exact collector number and finish pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -370,10 +370,10 @@
       "number": "Unverified",
       "finish": "Finish pending photo verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER02; IMG_6467DC27-DD38-4AD1-88BF-F25D051D8488.jpeg; Exact collector number and finish pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -513,10 +513,10 @@
       "number": "Unverified",
       "finish": "Finish pending photo verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER02; IMG_6467DC27-DD38-4AD1-88BF-F25D051D8488.jpeg; Exact collector number and finish pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -656,10 +656,10 @@
       "number": "Unverified",
       "finish": "Finish pending exact verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BOOSTER03; IMG_A118718D-12EA-4E66-B01F-18936C0DC79B.jpeg; Collector number pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -799,10 +799,10 @@
       "number": "Unverified",
       "finish": "Base appearance; finish verify",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BOOSTER04; IMG_DEF2DF69-8DF5-4073-815F-57705C3B7C50.jpeg; Collector # pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -942,10 +942,10 @@
       "number": "Unverified",
       "finish": "Finish pending verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BOOSTER05; IMG_9A678A29-24AC-4466-BC81-12798E8A6C7D.jpeg; Exact variant pending where unspecified; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -1085,10 +1085,10 @@
       "number": "Unverified",
       "finish": "Base appearance • verify",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BOOSTER06; IMG_DFCA7FB7-931C-4A0B-8A08-1529F990FE24.jpeg; Collector number / finish pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -1241,10 +1241,10 @@
       "number": "Unverified",
       "finish": "Finish pending verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER03; IMG_7588.jpeg; Exact collector number / finish to verify; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -1384,10 +1384,10 @@
       "number": "Unverified",
       "finish": "Finish pending verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER03; IMG_7588.jpeg; Exact collector number / finish to verify; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -1527,10 +1527,10 @@
       "number": "Unverified",
       "finish": "Finish pending verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER03; IMG_7588.jpeg; Exact collector number / finish to verify; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -1670,10 +1670,10 @@
       "number": "Unverified",
       "finish": "Finish pending verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BOOSTER07; IMG_24170DB1-5C29-4AE6-8A9A-CF23E8A30D4B.jpeg; Collector number / finish pending; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -1813,10 +1813,10 @@
       "number": "Unverified",
       "finish": "Finish pending verification",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BOOSTER08; IMG_460E8776-D71C-4DC8-85A8-9FBDD376874E.jpeg; Collector number and finish pending where unspecified; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -1969,10 +1969,10 @@
       "number": "Unverified",
       "finish": "Unverified",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER04; IMG_2F359CE3-D30C-4FDA-B36C-F6035253C3D3.jpeg; Exact finish / collector number verify; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -2112,10 +2112,10 @@
       "number": "Unverified",
       "finish": "Unverified",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER04; IMG_2F359CE3-D30C-4FDA-B36C-F6035253C3D3.jpeg; Exact finish / collector number verify; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -2255,10 +2255,10 @@
       "number": "Unverified",
       "finish": "Unverified",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Duplicates/extras • placement unconfirmed",
       "notes": "PULL-20261121-BLISTER04; IMG_2F359CE3-D30C-4FDA-B36C-F6035253C3D3.jpeg; Exact finish / collector number verify; photo-inferred details provisional; one physical copy",
-      "priceSource": "Indicative market reference; pending reconciliation",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -2580,10 +2580,10 @@
       "number": "Unverified",
       "finish": "Finish pending",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Binder/duplicates placement pending",
       "notes": "BLISTER01; photo prior blister #1; provisional identity from prior photo review; Pokédex N/A; distinct physical copy",
-      "priceSource": "Price pending",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -2697,10 +2697,10 @@
       "number": "Unverified",
       "finish": "Finish pending",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Binder/duplicates placement pending",
       "notes": "BLISTER01; photo prior blister #1; provisional identity from prior photo review; Pokédex N/A; distinct physical copy",
-      "priceSource": "Price pending",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -2827,10 +2827,10 @@
       "number": "Unverified",
       "finish": "Finish pending",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Binder/duplicates placement pending",
       "notes": "BLISTER01; photo prior blister #1; provisional identity from prior photo review; Pokédex N/A; distinct physical copy",
-      "priceSource": "Price pending",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -2957,10 +2957,10 @@
       "number": "Unverified",
       "finish": "Regular non-holo",
       "quantity": 1,
-      "market": null,
+      "market": 0.01,
       "status": "Binder/duplicates placement pending",
       "notes": "Booster #1 photograph, top left; corrected placeholder",
-      "priceSource": "Price pending",
+      "priceSource": "Conservative bulk Basic Energy estimate; exact printing unverified",
       "priceUrl": null
     },
     {
@@ -2978,9 +2978,9 @@
     }
   ],
   "valuation": {
-    "pricedCopies": 199,
-    "unpricedCopies": 25,
-    "pricedSubtotalUSD": 95.28,
+    "pricedCopies": 219,
+    "unpricedCopies": 5,
+    "pricedSubtotalUSD": 95.48,
     "method": "Estimated ungraded raw values; base-print proxies for unverified collector numbers/finishes; excludes unpriced copies; not sale proceeds",
     "asOf": "2026-11-21"
   }
