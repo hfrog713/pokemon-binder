@@ -62,14 +62,52 @@ const EXACT_CARD_IMAGES={
  "U-20261109-001":"https://img.illudex.com/mep-117/high.webp?v=e2f4a4b5",
  "P-0169":"https://billsarchive.com/assets/delta-reign/small/me06-108_electivire_ir.webp"
 };
-const IMAGE_SETS={"Surging Sparks":["sv","sv8"],"Obsidian Flames":["sv","sv3"],"151":["sv","sv3pt5"],"Celebrations – Classic Collection":["swsh","cel25c"],"Team Rocket":["base","base5"]};
+const IMAGE_SETS={"Surging Sparks":["sv","sv8","sv08"],"Obsidian Flames":["sv","sv3","sv03"],"151":["sv","sv3pt5","sv03.5"],"Celebrations – Classic Collection":["swsh","cel25c","cel25c"],"Team Rocket":["base","base5","base5"]};
+const CARD_IMAGE_OVERRIDES=new Map();
+const cardNameKey=s=>String(s||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+const validCardArt=u=>typeof u==="string"&&/^https:\/\/[^\s"'<>]+$/i.test(u);
 function cardImageCandidates(c){
- const exact=EXACT_CARD_IMAGES[c.id],spec=IMAGE_SETS[c.set],num=String(c.number||"").split("/")[0];
+ const exact=CARD_IMAGE_OVERRIDES.get(c.id)||EXACT_CARD_IMAGES[c.id],spec=IMAGE_SETS[c.set],num=String(c.number||"").split("/")[0];
  if(!spec||!/^\d+$/.test(num))return exact?[exact]:[];
  const [era,set]=spec,n=String(Number(num));
- const urls=["https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/high.webp","https://images.pokemontcg.io/"+set+"/"+n+"_hires.png","https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/low.webp"];
+ const urls=[
+  "https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/high.webp",
+  "https://images.pokemontcg.io/"+set+"/"+n+"_hires.png",
+  "https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/low.webp"
+ ];
  if(exact)urls.unshift(exact);
  return [...new Set(urls)];
+}
+function loadBinderCardImages(){
+ return new Promise(resolve=>{
+  const cb="binderArt_"+Date.now(),timer=setTimeout(()=>{delete window[cb];resolve(0)},6500);
+  window[cb]=response=>{
+   clearTimeout(timer);delete window[cb];
+   let count=0;
+   for(const r of response.table?.rows||[]){
+    const v=(r.c||[]).map(x=>x?.v??"");
+    if(/^(?:P-|U-)/.test(String(v[0]))&&validCardArt(v[3])){CARD_IMAGE_OVERRIDES.set(String(v[0]),String(v[3]));count++}
+   }
+   resolve(count);
+  };
+  const script=document.createElement("script");
+  script.onerror=()=>{clearTimeout(timer);delete window[cb];resolve(0)};
+  script.src="https://docs.google.com/spreadsheets/d/1yXNt8EkZxKbHeRDEAqz9ze3eezCcZyt3367h2WUmHws/gviz/tq?sheet="+encodeURIComponent("Card Values")+"&range=A1:E500&headers=1&tqx="+encodeURIComponent("out:json;responseHandler:"+cb)+"&cache="+Date.now();
+  document.head.appendChild(script);
+ });
+}
+async function hydrateTopCardImages(cards){
+ const specs=cards.filter(c=>!CARD_IMAGE_OVERRIDES.has(c.id)&&IMAGE_SETS[c.set]&&/^\d+/.test(c.number||""));
+ await Promise.all(specs.map(async c=>{
+  const [era,,catalogSet]=IMAGE_SETS[c.set];
+  const n=String(Number(String(c.number).split("/")[0])).padStart(era==="base"?1:3,"0");
+  try{
+   const r=await fetch("https://api.tcgdex.net/v2/en/cards/"+encodeURIComponent(catalogSet+"-"+n),{mode:"cors"});
+   if(!r.ok)return;
+   const data=await r.json();
+   if(validCardArt(data.image)&&cardNameKey(data.name)===cardNameKey(c.name))CARD_IMAGE_OVERRIDES.set(c.id,data.image+"/high.webp");
+  }catch(e){}
+ }));
 }
 function applyImageFallback(img){
  const urls=JSON.parse(img.dataset.sources||"[]");
@@ -92,7 +130,7 @@ function drawReconciled(id,cards,kind){
 }
 async function refreshTopCards(){
  $("topSync").textContent="Loading collection-filtered rankings…";
- try{const d=await loadRankings();drawReconciled("topRaw",d.raw,"raw");drawReconciled("topPSA",d.psa,"psa");$("topSync").textContent=d.coverage.copies+" owned physical copies · "+d.coverage.psaResearched+" PSA 10 printings researched · prices last reviewed "+d.asOf;}
+ try{const d=await loadRankings();await loadBinderCardImages();await hydrateTopCardImages([...new Map([...d.raw,...d.psa].map(c=>[c.id,c])).values()]);drawReconciled("topRaw",d.raw,"raw");drawReconciled("topPSA",d.psa,"psa");$("topSync").textContent=d.coverage.copies+" owned physical copies · "+d.coverage.psaResearched+" PSA 10 printings researched · prices last reviewed "+d.asOf;}
  catch(e){$("topSync").textContent="Unable to load rankings: "+e.message;}
 }
 function renderGraph(data){
