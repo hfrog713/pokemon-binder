@@ -71,30 +71,24 @@ function cardImageCandidates(c){
  if(!spec||!/^\d+$/.test(num))return exact?[exact]:[];
  const [era,set]=spec,n=String(Number(num));
  const urls=[
-  "https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/high.webp",
   "https://images.pokemontcg.io/"+set+"/"+n+"_hires.png",
+  "https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/high.webp",
   "https://assets.tcgdex.net/en/"+era+"/"+set+"/"+n+"/low.webp"
  ];
  if(exact)urls.unshift(exact);
  return [...new Set(urls)];
 }
-function loadBinderCardImages(){
- return new Promise(resolve=>{
-  const cb="binderArt_"+Date.now(),timer=setTimeout(()=>{delete window[cb];resolve(0)},6500);
-  window[cb]=response=>{
-   clearTimeout(timer);delete window[cb];
-   let count=0;
-   for(const r of response.table?.rows||[]){
-    const v=(r.c||[]).map(x=>x?.v??"");
-    if(/^(?:P-|U-)/.test(String(v[0]))&&validCardArt(v[3])){CARD_IMAGE_OVERRIDES.set(String(v[0]),String(v[3]));count++}
-   }
-   resolve(count);
-  };
-  const script=document.createElement("script");
-  script.onerror=()=>{clearTimeout(timer);delete window[cb];resolve(0)};
-  script.src="https://docs.google.com/spreadsheets/d/1yXNt8EkZxKbHeRDEAqz9ze3eezCcZyt3367h2WUmHws/gviz/tq?sheet="+encodeURIComponent("Card Values")+"&range=A1:E500&headers=1&tqx="+encodeURIComponent("out:json;responseHandler:"+cb)+"&cache="+Date.now();
-  document.head.appendChild(script);
- });
+async function loadBinderCardImages(){
+ try{
+  const response=await fetch("./card-artwork.json?cache="+Date.now(),{cache:"no-store"});
+  if(!response.ok)throw Error("Shared artwork manifest unavailable");
+  const data=await response.json();
+  let count=0;
+  for(const [id,record] of Object.entries(data.cards||{})){
+   if(validCardArt(record.url)){CARD_IMAGE_OVERRIDES.set(id,record.url);count++}
+  }
+  return count;
+ }catch(e){return 0}
 }
 async function hydrateTopCardImages(cards){
  const specs=cards.filter(c=>!CARD_IMAGE_OVERRIDES.has(c.id)&&IMAGE_SETS[c.set]&&/^\d+/.test(c.number||""));
