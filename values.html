@@ -57,7 +57,7 @@ async function loadRankings(){const res=await fetch("./rankings.json?cache="+Dat
 function safeUrl(x){try{const u=new URL(String(x));return u.protocol==="https:"?u.href:""}catch(e){return ""}}
 const IMAGE_SETS={"Surging Sparks":"sv8","Obsidian Flames":"sv3","151":"sv3pt5","Celebrations – Classic Collection":"cel25c","Team Rocket":"base5"};
 function cardImage(c){
- const set=IMAGE_SETS[c.set];const n=String(c.number||"").split("/")[0];if(!set||!/^\\d+$/.test(n))return "";
+ const set=IMAGE_SETS[c.set];const n=String(c.number||"").split("/")[0];if(!set||!/^\d+$/.test(n))return "";
  return "https://assets.tcgdex.net/en/"+(set==="base5"?"base":"sv")+"/"+set+"/"+String(Number(n))+"/high.webp";
 }
 function drawReconciled(id,cards,kind){
