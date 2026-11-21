@@ -156,8 +156,9 @@ function doSearch(){
 }
 $("displayMode").onchange=e=>{displayMode=e.target.value==="physical"?"physical":"valuable";render();$("slotTitle").textContent="Select a pocket";$("slotDetail").textContent="Tap a pocket to see the card shown in this view and its market reference."};
 $("selectPage").onchange=e=>{page=Number(e.target.value);render()};$("prev").onclick=()=>{page=Math.max(1,page-1);render()};$("next").onclick=()=>{page=Math.min(store.pages.length,page+1);render()};$("clear").onclick=()=>{$("search").value="";$("searchresults").className="searchresults";page=1;render()};$("search").oninput=doSearch;
+let auditedSpecies=null;
 function updateStats(){
- let u=new Set(store.owned.map(x=>x.dex)).size,c=store.cards.reduce((a,b)=>a+(Number(b.qty)||1),0),pct=100*u/1025;
+ let u=auditedSpecies?.ownedSpecies??new Set(store.owned.map(x=>x.dex)).size,c=store.cards.reduce((a,b)=>a+(Number(b.qty)||1),0),pct=100*u/1025;
  $("ownedCount").textContent=u;$("unfiledCount").textContent=store.owned.filter(o=>pendingPocket(o)).length;$("cardCount").textContent=c;$("percentage").textContent=pct.toFixed(1)+"%";$("bar").style.width=pct.toFixed(2)+"%";
  const verified=store.cards.filter(c=>c.market!==""&&c.market!=null&&Number.isFinite(Number(c.market)));
  const subtotal=verified.reduce((a,c)=>a+Number(c.market)*(Number(c.qty)||1),0);
@@ -243,7 +244,7 @@ async function refreshExtras(){
 $("extrasFilter").onchange=renderExtras;
 refreshExtras();
 refreshPending();
-init();updateStats();refresh();refreshCandidates();
+init();updateStats();refresh();fetch("./species-completion.json?cache="+Date.now(),{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("Species data unavailable");return r.json()}).then(d=>{if(d.ownedDexNumbers?.length===d.ownedSpecies){auditedSpecies=d;updateStats()}}).catch(()=>{});refreshCandidates();
 </script>
 <section style="max-width:1160px;margin:14px auto;padding:14px 20px;border:1px solid #3b5a6c;border-radius:12px;background:#132b3c;color:#edf5f5;font:14px system-ui"><strong>Verified Wishiwashi forms — National Dex #746</strong><p>Solo Form: Darkness Ablaze #050/189, non-holo, P26 R3C2 · School Form: binder slot #746.1, Delta Reign Wishiwashi ex #029/103, holofoil Double Rare, P26 R3C3. Two form pockets, one unique species. Photo verified November 21, 2026.</p></section>
 <section style="max-width:1160px;margin:14px auto;padding:16px 20px;border:1px solid #438d6b;border-radius:12px;background:#132b3c;color:#edf5f5;font:14px system-ui"><strong>Reconciled collection value: $279.51</strong> · 679 physical copies (670 priced; 9 copies unpriced) · 6 newly filed species confirmed · 0 owned species awaiting pocket confirmation. <a href="./values.html#reconciled-valuation" style="color:#baffd2">View valuation breakdown</a><p style="font-size:12px;opacity:.8">Snapshot November 21, 2026; raw market estimates are provisional. Live binder status depends on the public spreadsheet feed.</p></section>
